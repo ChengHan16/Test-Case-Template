@@ -7,6 +7,24 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <style>
+        html, body {
+            max-width: 100%;
+            overflow-x: hidden; /* 禁止左右滑動 */
+        }
+
+        /* 2. 針對那個超大名字進行響應式調整 */
+        .big-name {
+            font-size: 200px; /* 桌機版可以大，但建議不要到 500px */
+            text-align: center;
+            word-break: break-all; /* 如果名字太長則換行 */
+        }
+
+        /* 手機版縮放 */
+        @media (max-width: 768px) {
+            .big-name {
+                font-size: 80px; /* 手機版自動縮小到合理範圍 */
+            }
+        }
         /* --- 基礎樣式 --- */
         body {
             font-family: "Noto Sans TC", "Arial", sans-serif;
