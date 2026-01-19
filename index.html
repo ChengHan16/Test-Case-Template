@@ -1,310 +1,209 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>立法院-網頁模板</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
+    <title>立法院 - 委員會議事地圖</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* --- 基礎樣式 --- */
+        :root {
+            --ly-blue: #003366; /* 立院深藍 */
+            --ly-red: #A52A2A;  /* 莊重紅 */
+            --bg-gray: #f4f4f4;
+            --text-dark: #333;
+        }
+
         body {
-            font-family: "Noto Sans TC", "Arial", sans-serif;
+            font-family: "PingFang TC", "Microsoft JhengHei", sans-serif;
             margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            color: #333;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
+            background-color: var(--bg-gray);
+            color: var(--text-dark);
         }
 
-        /* --- 1. 導覽列樣式 (深藍色底) --- */
-        .navbar-static {
-            background-color: #1a237e;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* 頂部微細線 */
-        }
-
-        .navbar-full {
+        /* 頂部導航 */
+        header {
+            background-color: white;
+            padding: 15px 5%;
+            border-bottom: 3px solid var(--ly-blue);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 40px;
         }
 
         .logo {
-            font-size: 1.5em;
+            font-size: 24px;
             font-weight: bold;
-            color: white;
-            display: flex;
-            align-items: center;
-        }
-        .logo-circle {
-            background-color: #ffcc00;
-            color: #1a237e;
-            width: 32px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1em;
-            margin-right: 5px;
-            font-weight: 700;
+            color: var(--ly-blue);
         }
 
-        .nav-links {
-            list-style: none;
-            display: flex;
-            margin: 0;
-            padding: 0;
-        }
-
-        .nav-links li {
-            margin-left: 30px;
-        }
-
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            padding: 8px 15px;
-            transition: all 0.3s;
-        }
-
-        .nav-links a:hover {
-            border-bottom: 2px solid #ffcc00;
-        }
-        .nav-links a.active-dark {
-            background-color: #004d99;
-            border-radius: 4px;
-            color: white !important;
-            border-bottom: none; 
-        }
-
-        /* --- 2. 活動詳情 Banner 樣式 (新增漸層與分隔線) --- */
-        .event-banner {
-            /* 使用深藍到更深藍的線性漸層 */
-            background: linear-gradient(135deg, #1a237e 0%, #0d1241 100%);
-            color: white;
-            padding: 30px 20px 30px 20px;
-            text-align: center;
-            position: relative;
-            /* 底部金色裝飾線 */
-            border-bottom: 4px solid #ffcc00;
-        }
-
-        .event-banner h1 {
-            font-size: 3.5em;
-            margin: 0;
-            letter-spacing: 2px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3); /* 文字陰影增加立體感 */
-        }
-        
-        /* --- 3. 主要內容區域 --- */
-        .event-content-area {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 40px 20px;
-            text-align: left;
-            font-size: 1.1em;
-            flex: 1;
-        }
-
-        .member-list {
+        /* 主容器 */
+        .container {
             display: flex;
             flex-wrap: wrap;
-            justify-content: flex-start;
+            max-width: 1200px;
+            margin: 20px auto;
+            background: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        /* 左側資訊欄 (仿麥當勞店鋪資訊) */
+        .info-panel {
+            flex: 1;
+            min-width: 350px;
+            padding: 30px;
+            border-right: 1px solid #eee;
+        }
+
+        .status-badge {
+            background-color: #28a745;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            margin: 0 0 10px 0;
+            color: var(--ly-blue);
+            font-size: 28px;
+        }
+
+        .address {
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+
+        /* 營業時間改為議事時間 */
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .schedule-table td {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+        }
+
+        .schedule-table .day { font-weight: bold; }
+        .schedule-table .time { text-align: right; }
+
+        /* 功能圖標區 (仿麥當勞設施圖標) */
+        .service-icons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
             margin-top: 30px;
         }
 
-        .member-item {
-            width: 100px; 
+        .icon-item {
             text-align: center;
-            margin-right: 20px;
-            margin-bottom: 30px;
-            flex-shrink: 0;
+            font-size: 12px;
+            color: var(--ly-blue);
         }
 
-        /* 重點修改：member-item2 的慢慢浮現動畫 */
-        .member-item2 {
-            width: 100px; 
-            text-align: center;
-            margin-right: auto;
-            margin-left: auto;
-            margin-bottom: 30px;
-            flex-shrink: 0;
-            
-            /* 設定動畫屬性 */
-            opacity: 0; /* 起始完全透明 */
-            animation: slow-fade-in 30s ease-in forwards; /* 30秒慢慢浮現 */
-        }
-
-        /* 定義浮現動畫關鍵影格 */
-        @keyframes slow-fade-in {
-            0% {
-                opacity: 0;
-                filter: blur(5px); /* 可選：起始增加一點模糊感 */
-            }
-            100% {
-                opacity: 1;
-                filter: blur(0);
-            }
-        }
-
-        .member-name-placeholder {
-            font-size: 0.9em;
-            color: #666;
+        .icon-item i {
+            font-size: 24px;
+            display: block;
             margin-bottom: 5px;
-            white-space: nowrap;
+            color: #555;
         }
 
-        .member-image-wrapper {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 5px solid #fff;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            margin: 0 auto 10px auto;
+        /* 右側地圖區 */
+        .map-panel {
+            flex: 1.5;
+            min-width: 450px;
+            background-color: #e5e3df;
+            position: relative;
+            min-height: 500px;
         }
 
-        .member-image-wrapper img {
+        .fake-map {
             width: 100%;
             height: 100%;
-            display: block;
-            object-fit: cover; 
-            background: radial-gradient(circle at center, #ff0000 0%, #1a237e 70%); 
-        }
-        
-        .member-title {
-            font-weight: bold;
-            font-size: 1.2em;
-            color: #111;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: url('https://www.ly.gov.tw/Images/Lego/ly_logo_gold.svg') center no-repeat;
+            background-size: 200px;
+            opacity: 0.2;
         }
 
-        .image-container-final {
-            width: 100%; 
-            max-width: 600px; 
-            height: 350px; 
-            margin: 30px auto; 
-            border-radius: 12px; 
-            overflow: hidden; 
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); 
+        /* 行動點餐按鈕改為議事直播 */
+        .cta-button {
             display: block;
-        }
-
-        .event-image-final {
-            width: 100%;
-            height: 100%;
-            display: block;
-            object-fit: cover; 
-        }
-
-        /* --- 4. 頁腳樣式 --- */
-        footer {
-            text-align: center;
-            padding: 30px;
-            background-color: #1a237e; 
+            background-color: var(--ly-red);
             color: white;
-            font-size: 0.8em;
-            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            padding: 15px;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            margin-top: 30px;
+            transition: 0.3s;
         }
 
-        /* ============================================================
-           手機版本優化 (Mobile Optimization) 
-           ============================================================ */
+        .cta-button:hover {
+            background-color: #800000;
+        }
+
         @media (max-width: 768px) {
-            .navbar-full {
-                flex-direction: column;
-                padding: 15px 10px;
-            }
-            .nav-links {
-                margin-top: 15px;
-                width: 100%;
-                justify-content: center;
-                border-top: 1px solid rgba(255,255,255,0.1); /* 手機版選單分隔線 */
-                padding-top: 10px;
-            }
-            .nav-links li {
-                margin: 0 8px;
-            }
-            .nav-links a {
-                padding: 5px 5px;
-                font-size: 0.85em;
-            }
-
-            .event-banner {
-                padding: 30px 15px;
-                border-bottom-width: 3px; /* 手機版分隔線稍細 */
-            }
-            .event-banner h1 {
-                font-size: 1.8em;
-            }
-
-            .member-list {
-                justify-content: center;
-            }
-            .member-item {
-                margin: 0 10px 20px 10px;
-                width: 85px;
-            }
-            .member-image-wrapper {
-                width: 80px;
-                height: 80px;
-            }
-            .member-title {
-                font-size: 1em;
-            }
-
-            .event-content-area {
-                text-align: center;
-                padding: 30px 15px;
-            }
-            .image-container-final {
-                height: 250px;
-            }
+            .container { flex-direction: column; }
+            .info-panel, .map-panel { width: 100%; min-width: unset; }
         }
     </style>
 </head>
 <body>
 
-    <header class="navbar-static">
-        <nav class="navbar-full">
-            <div class="logo">
-                <div class="logo-circle">立</div> 
-                立法院 
-            </div>
-            <ul class="nav-links">
-                <li><a href="index.html">首頁</a></li>
-                <li><a href="about.html">關於我們</a></li> 
-                <li><a href="members.html">成員介紹</a></li> 
-                <li><a href="events.html" class="active-dark">活動行程</a></li>
-                <li><a href="index.html">其他</a></li>
-            </ul>
-        </nav>
-    </header>
+<header>
+    <div class="logo"><i class="fa-solid fa-building-columns"></i> 立法院 Legislature</div>
+    <div class="search-bar">國會議事資訊檢索</div>
+</header>
 
-    <section class="event-banner">
-        <div class="banner-content">
-            <h1>活動模板</h1>
-        </div>
-    </section>
-
-    <main class="event-content-area">
+<div class="container">
+    <div class="info-panel">
+        <div class="status-badge"><i class="fa-solid fa-tower-broadcast"></i> 議事進行中</div>
+        <h1>內政委員會</h1>
+        <p class="address">第 11 屆 第 1 會期 | 院區：紅樓 202 會議室</p>
         
-        <div class="event-info">
-
-            <hr style="border: 0; border-top: 1px solid #ddd; margin: 30px 0;">
-            
+        <div class="address">
+            <i class="fa-solid fa-location-dot"></i> 台北市中正區中山南路 1 號
         </div>
-        
-    </main>
 
-    <footer>
-        <p>© 2025 立法院 Legislature. All rights reserved.</p>
-    </footer>
+        <table class="schedule-table">
+            <tr><td class="day">星期一</td><td class="time">09:00 - 17:30</td></tr>
+            <tr><td class="day">星期三</td><td class="time">09:00 - 17:30</td></tr>
+            <tr><td class="day">星期四</td><td class="time">09:00 - 17:30</td></tr>
+        </table>
+
+        <h3>提供服務項目</h3>
+        <div class="service-icons">
+            <div class="icon-item"><i class="fa-solid fa-video"></i>ivod 直播</div>
+            <div class="icon-item"><i class="fa-solid fa-file-lines"></i>議事錄</div>
+            <div class="icon-item"><i class="fa-solid fa-hands-holding"></i>聽證會</div>
+            <div class="icon-item"><i class="fa-solid fa-wheelchair"></i>無障礙</div>
+            <div class="icon-item"><i class="fa-solid fa-language"></i>手語翻譯</div>
+            <div class="icon-item"><i class="fa-solid fa-wifi"></i>媒體區</div>
+            <div class="icon-item"><i class="fa-solid fa-print"></i>公報查詢</div>
+            <div class="icon-item"><i class="fa-solid fa-user-shield"></i>旁聽席</div>
+        </div>
+
+        <a href="#" class="cta-button"><i class="fa-solid fa-play"></i> 進入 ivod 議事轉播系統</a>
+    </div>
+
+    <div class="map-panel">
+        <div class="fake-map">
+            <p>地圖加載中...</p>
+        </div>
+        <div style="position: absolute; top: 20px; right: 20px; background: white; padding: 10px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
+            院區位置導覽
+        </div>
+    </div>
+</div>
 
 </body>
 </html>
