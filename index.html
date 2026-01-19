@@ -113,22 +113,25 @@
 
         /* --- 4. 關鍵優化：網頁版並排 3-4 個卡片 --- */
         .member-grid {
-            display: grid;
-            /* 將最小寬度設為 250px，確保在大螢幕也能維持 3-4 個的比例 */
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            display: grid !important; /* 強制啟動網格 */
+            /* 電腦版預設：並排 4 個，每個佔 1 份等寬比例 */
+            grid-template-columns: repeat(4, 1fr); 
             gap: 25px;
+            margin-top: 20px;
+            width: 100%; /* 確保容器撐開 */
         }
 
         .member-card {
             background: white;
-            padding: 35px 20px;
+            padding: 30px 15px;
             border-radius: 12px;
             text-align: center;
             box-shadow: 0 4px 10px rgba(0,0,0,0.05);
             border-top: 5px solid #1a237e;
             transition: all 0.3s ease;
+            /* 移除可能干擾並排的寬度限制 */
+            width: auto; 
         }
-
         .member-card:hover {
             transform: translateY(-8px);
             box-shadow: 0 12px 20px rgba(26, 35, 126, 0.15);
@@ -170,6 +173,25 @@
             .member-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
             .event-content-area { padding: 30px 15px; }
         }
+
+        @media (max-width: 1100px) {
+            .member-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        /* 當螢幕較小（手機版）改為並排 2 個 */
+        @media (max-width: 768px) {
+            .member-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 12px;
+            }
+            
+            /* 針對您要求的手機版 Banner 資訊換行 */
+            .banner-info-wrap {
+                flex-direction: column;
+                gap: 10px;
+            }
     </style>
 </head>
 <body>
