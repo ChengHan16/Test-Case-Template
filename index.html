@@ -12,6 +12,7 @@
 
         body {
             font-family: "Noto Sans TC", "Arial", sans-serif;
+            margin: 0; padding: 0;
             background-color: #f4f4f4;
             color: #333;
             display: flex;
@@ -24,8 +25,8 @@
             background-color: #1a237e;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            position: relative;
             z-index: 1100;
+            position: relative;
         }
 
         .navbar-full {
@@ -45,8 +46,7 @@
         .logo-circle {
             background-color: #ffcc00;
             color: #1a237e;
-            width: 32px;
-            height: 30px;
+            width: 32px; height: 30px;
             border-radius: 50%;
             display: flex; justify-content: center; align-items: center;
             margin-right: 5px; font-weight: 700;
@@ -59,26 +59,21 @@
             padding: 8px 15px; transition: all 0.3s;
         }
         .nav-links a:hover { border-bottom: 2px solid #ffcc00; }
-        .nav-links a.active-dark { background-color: #004d99; border-radius: 4px; }
+        .nav-links a.active-dark { background-color: #004d99; border-radius: 4px; color: white !important; }
 
         /* 手機版專用按鈕 (預設隱藏) */
-        .mobile-toggle, .mobile-search { display: none; }
+        .mobile-btn { display: none; }
 
-        /* --- 2. 活動詳情 Banner --- */
+        /* --- 2. Banner 與 內容 --- */
         .event-banner {
             background: linear-gradient(135deg, #1a237e 0%, #0d1241 100%);
             color: white; padding: 30px 20px; text-align: center;
             border-bottom: 4px solid #ffcc00;
         }
         .event-banner h1 { font-size: 3.5em; margin: 0; letter-spacing: 2px; }
-
-        /* --- 3. 主要內容區域 --- */
         .event-content-area { max-width: 900px; margin: 0 auto; padding: 40px 20px; flex: 1; }
-
-        /* --- 4. 頁腳樣式 --- */
         footer { text-align: center; padding: 30px; background-color: #1a237e; color: white; font-size: 0.8em; }
 
-        /* --- 回到最頂端按鈕 --- */
         .back-to-top {
             position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px;
             background-color: #1a237e; color: white; border-radius: 50%;
@@ -87,59 +82,65 @@
         }
 
         /* ============================================================
-           手機版本優化 (仿圖片設計)
+           手機版本優化 (仿圖片漢堡選單設計)
            ============================================================ */
         @media (max-width: 768px) {
-            /* 導覽列改為白色背景 */
+            /* 1. 導覽列改為白色背景，Logo 置中 */
             .navbar-static { background-color: white; border-bottom: 1px solid #ddd; }
-            .navbar-full { padding: 10px 20px; }
+            .navbar-full { padding: 10px 15px; position: relative; }
 
-            /* Logo 改為中間顯示，顏色變深藍或原色 */
-            .logo { color: #1a237e; position: absolute; left: 50%; transform: translateX(-50%); }
-            .logo-circle { background-color: #ffcc00; }
+            .logo { color: #1a237e; position: absolute; left: 50%; transform: translateX(-50%); font-size: 1.2em; }
+            .logo-circle { background-color: #ffcc00; border: 1px solid #1a237e; }
 
-            /* 顯示漢堡與搜尋圖示 */
-            .mobile-toggle, .mobile-search {
-                display: block; font-size: 1.5em; color: #333; cursor: pointer;
-            }
+            /* 2. 顯示漢堡選單按鈕與搜尋按鈕 */
+            .mobile-btn { display: block; font-size: 1.5em; color: #333; cursor: pointer; }
 
-            /* 隱藏原本的水平選單 */
+            /* 3. nav-links 轉化為側邊滑出選單 */
             .nav-links {
-                position: fixed; top: 0; left: -100%; /* 預設在螢幕外 */
-                width: 100%; height: 100vh; background-color: white;
-                flex-direction: column; align-items: flex-start;
-                padding: 60px 30px; transition: 0.4s; z-index: 1200;
+                position: fixed; top: 0; left: -100%; /* 平時藏在左側外 */
+                width: 100%; height: 100vh;
+                background-color: white;
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 60px 25px;
+                transition: 0.4s ease-in-out;
+                z-index: 1200;
+                box-sizing: border-box;
+                overflow-y: auto;
             }
 
-            /* 選單開啟時的狀態 */
+            /* 當選單開啟時的狀態 */
             .nav-links.active { left: 0; }
 
-            .nav-links li { margin: 15px 0; width: 100%; }
-            .nav-links a {
-                color: #333; font-size: 1.2em; display: flex;
-                justify-content: space-between; width: 100%; border-bottom: 1px solid #eee;
-                padding: 10px 0;
-            }
-            .nav-links a:hover { border-bottom: none; color: #1a237e; }
+            .nav-links li { margin: 0; width: 100%; border-bottom: 1px solid #eee; }
+            .nav-links li:last-child { border-bottom: none; }
 
-            /* 漢堡選單關閉按鈕 */
-            .close-menu {
-                display: block; position: absolute; top: 20px; left: 20px;
-                font-size: 1.5em; color: #333; cursor: pointer;
+            .nav-links a {
+                color: #333; font-size: 1.1em; display: flex;
+                justify-content: space-between; align-items: center;
+                padding: 15px 0; width: 100%;
+            }
+
+            /* 仿照圖片中的 "+" 符號設計 */
+            .nav-links a::after { content: '\f067'; font-family: 'Font Awesome 6 Free'; font-weight: 900; font-size: 0.8em; color: #999; }
+            .nav-links a.active-dark { background-color: transparent; color: #1a237e !important; font-weight: bold; }
+
+            /* 選單內的頂部關閉按鈕 */
+            .menu-header {
+                display: flex; justify-content: space-between; align-items: center;
+                position: absolute; top: 0; left: 0; width: 100%; padding: 10px 15px;
+                box-sizing: border-box; border-bottom: 1px solid #eee;
             }
 
             .event-banner h1 { font-size: 2em; }
         }
-
-        /* 電腦版隱藏關閉按鈕 */
-        .close-menu { display: none; }
     </style>
 </head>
 <body>
 
     <header class="navbar-static">
         <nav class="navbar-full">
-            <div class="mobile-toggle" onclick="toggleMenu()">
+            <div class="mobile-btn" onclick="toggleMenu()">
                 <i class="fa-solid fa-bars"></i>
             </div>
 
@@ -147,24 +148,26 @@
                 <div class="logo-circle">立</div> 立法院 
             </div>
 
-            <div class="mobile-search">
+            <div class="mobile-btn">
                 <i class="fa-solid fa-magnifying-glass"></i>
             </div>
 
             <ul class="nav-links" id="navLinks">
-                <div class="close-menu" onclick="toggleMenu()">
-                    <i class="fa-solid fa-xmark"></i>
+                <div class="menu-header" onclick="toggleMenu()" style="display: none;">
+                    <i class="fa-solid fa-xmark" style="font-size: 1.5em; cursor: pointer;"></i>
+                    <div class="logo" style="color: #1a237e; position: static; transform: none;">
+                        <div class="logo-circle">立</div> 立法院 
+                    </div>
+                    <i class="fa-solid fa-magnifying-glass" style="font-size: 1.5em; opacity: 0;"></i>
                 </div>
+                
                 <li><a href="index.html">ホーム</a></li>
-                <li><a href="about.html" class="active-dark">メニュー <i class="fa-solid fa-plus" style="font-size: 0.8em; margin-left: auto; display: none;"></i></a></li> 
-                <li><a href="members.html">キャンペーン</a></li> 
-                <li><a href="events.html">ファミリー</a></li>
-                <li><a href="index.html">サステナビリティ</a></li>
-                <li><a href="index.html">お店・サービス</a></li>
-                <hr style="width: 100%; border: 0; border-top: 1px solid #eee; margin: 10px 0;">
-                <li><a href="#" style="font-size: 1em;">採用情報</a></li>
-                <li><a href="#" style="font-size: 1em;">公式アプリ</a></li>
-                <li><a href="#" style="font-size: 1em; color: #004d99;"><i class="fa-solid fa-magnifying-glass"></i> 検索</a></li>
+                <li><a href="about.html" class="active-dark">選單名稱</a></li> 
+                <li><a href="members.html">組織成員</a></li> 
+                <li><a href="events.html">活動行程</a></li>
+                <li><a href="index.html" style="color: #666; font-size: 0.9em;">採用情報</a></li>
+                <li><a href="index.html" style="color: #666; font-size: 0.9em;">公式アプリ</a></li>
+                <li><a href="#" style="color: #1a237e; font-size: 1em;"><i class="fa-solid fa-magnifying-glass"></i> 検索</a></li>
             </ul>
         </nav>
     </header>
@@ -177,7 +180,7 @@
 
     <main class="event-content-area">
         <div class="event-info">
-            <p>點擊手機版左上角的漢堡選單查看效果。</p>
+            <p>手機模式下，上方導覽列會變為白色背景、Logo 置中，並提供側邊選單功能。</p>
             <hr style="border: 0; border-top: 1px solid #ddd; margin: 30px 0;">
         </div>
     </main>
@@ -191,17 +194,26 @@
     </footer>
 
     <script>
+        // 控制選單開關
         function toggleMenu() {
-            const navLinks = document.getElementById('navLinks');
-            navLinks.classList.toggle('active');
+            const menu = document.getElementById('navLinks');
+            menu.classList.toggle('active');
             
-            // 開啟選單時禁止頁面捲動
-            if(navLinks.classList.contains('active')) {
+            // 當選單開啟時禁止背景滾動
+            if(menu.classList.contains('active')) {
                 document.body.style.overflow = 'hidden';
             } else {
                 document.body.style.overflow = 'auto';
             }
         }
+
+        // 監聽螢幕縮放，若切換回桌機版需清除禁止滾動設定
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                document.body.style.overflow = 'auto';
+                document.getElementById('navLinks').classList.remove('active');
+            }
+        });
     </script>
 </body>
 </html>
