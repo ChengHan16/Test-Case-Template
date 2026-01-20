@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>立法院 - 成員組織名錄</title>
+    <title>立法院-網頁模板</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <style>
-        /* --- 基礎樣式與防溢出 --- */
         html { scroll-behavior: smooth; }
         html, body { max-width: 100%; overflow-x: hidden; margin: 0; padding: 0; }
 
@@ -20,11 +19,13 @@
             min-height: 100vh;
         }
 
-        /* --- 1. 導覽列樣式 --- */
+        /* --- 1. 導覽列樣式 (電腦版維持原樣) --- */
         .navbar-static {
             background-color: #1a237e;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            z-index: 1100;
         }
 
         .navbar-full {
@@ -41,227 +42,166 @@
             display: flex;
             align-items: center;
         }
-
         .logo-circle {
             background-color: #ffcc00;
             color: #1a237e;
             width: 32px;
-            height: 32px;
+            height: 30px;
             border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-right: 10px;
-            font-weight: 700;
+            display: flex; justify-content: center; align-items: center;
+            margin-right: 5px; font-weight: 700;
         }
 
-        .nav-links {
-            list-style: none;
-            display: flex;
-            margin: 0;
-            padding: 0;
-        }
-
+        .nav-links { list-style: none; display: flex; margin: 0; padding: 0; }
         .nav-links li { margin-left: 30px; }
-        .nav-links a { color: white; text-decoration: none; font-weight: 500; padding: 8px 15px; transition: 0.3s; }
+        .nav-links a {
+            color: white; text-decoration: none; font-weight: 500;
+            padding: 8px 15px; transition: all 0.3s;
+        }
         .nav-links a:hover { border-bottom: 2px solid #ffcc00; }
-        .nav-links a.active-dark { background-color: #004d99; border-radius: 4px; color: white !important; }
+        .nav-links a.active-dark { background-color: #004d99; border-radius: 4px; }
 
-        /* --- 2. 活動詳情 Banner 樣式 --- */
+        /* 手機版專用按鈕 (預設隱藏) */
+        .mobile-toggle, .mobile-search { display: none; }
+
+        /* --- 2. 活動詳情 Banner --- */
         .event-banner {
             background: linear-gradient(135deg, #1a237e 0%, #0d1241 100%);
-            color: white;
-            padding: 60px 20px;
-            text-align: center;
+            color: white; padding: 30px 20px; text-align: center;
             border-bottom: 4px solid #ffcc00;
         }
-
-        .event-banner h1 { font-size: 3.5em; margin: 0; letter-spacing: 2px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
-
-        .banner-info-wrap {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 20px;
-            font-size: 1.1em;
-            color: #ffcc00;
-        }
+        .event-banner h1 { font-size: 3.5em; margin: 0; letter-spacing: 2px; }
 
         /* --- 3. 主要內容區域 --- */
-        .event-content-area {
-            max-width: 1100px; /* 限制內容寬度，確保 3-4 個卡片視覺比例最美 */
-            margin: 0 auto;
-            padding: 40px 20px;
-            flex: 1;
-        }
+        .event-content-area { max-width: 900px; margin: 0 auto; padding: 40px 20px; flex: 1; }
 
-        .org-image-container { text-align: center; margin-bottom: 50px; }
-        .org-logo {
-            width: 180px; height: 180px; border-radius: 50%;
-            border: 6px solid white; box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-            object-fit: cover;
-        }
+        /* --- 4. 頁腳樣式 --- */
+        footer { text-align: center; padding: 30px; background-color: #1a237e; color: white; font-size: 0.8em; }
 
-        .section-title {
-            border-left: 6px solid #1a237e;
-            padding-left: 15px;
-            margin: 50px 0 25px;
-            color: #1a237e;
-            font-size: 1.6em;
-            font-weight: bold;
-        }
-
-        /* --- 4. 關鍵優化：網頁版並排 3-4 個卡片 --- */
-        .member-grid {
-            display: grid !important; /* 強制啟動網格 */
-            /* 電腦版預設：並排 4 個，每個佔 1 份等寬比例 */
-            grid-template-columns: repeat(4, 1fr); 
-            gap: 25px;
-            margin-top: 20px;
-            width: 100%; /* 確保容器撐開 */
-        }
-
-        .member-card {
-            background: white;
-            padding: 30px 15px;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            border-top: 5px solid #1a237e;
-            transition: all 0.3s ease;
-            /* 移除可能干擾並排的寬度限制 */
-            width: auto; 
-        }
-        .member-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 20px rgba(26, 35, 126, 0.15);
-            border-top-color: #ffcc00;
-        }
-
-        .m-name { font-weight: bold; font-size: 1.3em; color: #111; margin-bottom: 10px; }
-        .m-party { font-size: 1em; color: #666; line-height: 1.5; }
-
-        .gone-member { background-color: #fafafa; border-top-color: #9e9e9e; opacity: 0.7; }
-
-        /* --- 5. 其他元件 --- */
+        /* --- 回到最頂端按鈕 --- */
         .back-to-top {
-            position: fixed; bottom: 30px; right: 30px;
-            width: 50px; height: 50px; background-color: #1a237e;
-            color: white; border-radius: 50%; display: flex;
-            justify-content: center; align-items: center; z-index: 1000;
-            border: 2px solid #ffcc00; transition: 0.3s;
+            position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px;
+            background-color: #1a237e; color: white; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            z-index: 1000; border: 2px solid #ffcc00; transition: 0.3s;
         }
 
-        footer { text-align: center; padding: 40px 20px; background-color: #1a237e; color: white; font-size: 0.8em; }
-
-        /* =============================================
-           響應式優化
-           ============================================= */
-        @media (max-width: 992px) {
-            /* 平板寬度時改為固定 3 個或自動排列 */
-            .member-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
-        }
-
+        /* ============================================================
+           手機版本優化 (仿圖片設計)
+           ============================================================ */
         @media (max-width: 768px) {
-            .navbar-full { flex-direction: column; padding: 15px 10px; }
-            .nav-links { margin-top: 15px; width: 100%; justify-content: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px; }
-            .nav-links li { margin: 0 8px; }
+            /* 導覽列改為白色背景 */
+            .navbar-static { background-color: white; border-bottom: 1px solid #ddd; }
+            .navbar-full { padding: 10px 20px; }
+
+            /* Logo 改為中間顯示，顏色變深藍或原色 */
+            .logo { color: #1a237e; position: absolute; left: 50%; transform: translateX(-50%); }
+            .logo-circle { background-color: #ffcc00; }
+
+            /* 顯示漢堡與搜尋圖示 */
+            .mobile-toggle, .mobile-search {
+                display: block; font-size: 1.5em; color: #333; cursor: pointer;
+            }
+
+            /* 隱藏原本的水平選單 */
+            .nav-links {
+                position: fixed; top: 0; left: -100%; /* 預設在螢幕外 */
+                width: 100%; height: 100vh; background-color: white;
+                flex-direction: column; align-items: flex-start;
+                padding: 60px 30px; transition: 0.4s; z-index: 1200;
+            }
+
+            /* 選單開啟時的狀態 */
+            .nav-links.active { left: 0; }
+
+            .nav-links li { margin: 15px 0; width: 100%; }
+            .nav-links a {
+                color: #333; font-size: 1.2em; display: flex;
+                justify-content: space-between; width: 100%; border-bottom: 1px solid #eee;
+                padding: 10px 0;
+            }
+            .nav-links a:hover { border-bottom: none; color: #1a237e; }
+
+            /* 漢堡選單關閉按鈕 */
+            .close-menu {
+                display: block; position: absolute; top: 20px; left: 20px;
+                font-size: 1.5em; color: #333; cursor: pointer;
+            }
+
             .event-banner h1 { font-size: 2em; }
-            .banner-info-wrap { flex-direction: column; gap: 10px; }
-
-            /* 手機版保持每列兩個卡片 */
-            .member-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-            .event-content-area { padding: 30px 15px; }
         }
 
-        @media (max-width: 1100px) {
-            .member-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
-        /* 當螢幕較小（手機版）改為並排 2 個 */
-        @media (max-width: 768px) {
-            .member-grid {
-                grid-template-columns: repeat(2, 1fr) !important;
-                gap: 12px;
-            }
-            
-            /* 針對您要求的手機版 Banner 資訊換行 */
-            .banner-info-wrap {
-                flex-direction: column;
-                gap: 10px;
-            }
+        /* 電腦版隱藏關閉按鈕 */
+        .close-menu { display: none; }
     </style>
 </head>
 <body>
 
     <header class="navbar-static">
         <nav class="navbar-full">
-            <div class="logo"><div class="logo-circle">立</div> 立法院 Legislature</div>
-            <ul class="nav-links">
-                <li><a href="index.html">首頁</a></li>
-                <li><a href="about.html">關於我們</a></li> 
-                <li><a href="members.html" class="active-dark">成員介紹</a></li> 
-                <li><a href="events.html">活動行程</a></li>
-                <li><a href="index.html">其他</a></li>
+            <div class="mobile-toggle" onclick="toggleMenu()">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+
+            <div class="logo">
+                <div class="logo-circle">立</div> 立法院 
+            </div>
+
+            <div class="mobile-search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+
+            <ul class="nav-links" id="navLinks">
+                <div class="close-menu" onclick="toggleMenu()">
+                    <i class="fa-solid fa-xmark"></i>
+                </div>
+                <li><a href="index.html">ホーム</a></li>
+                <li><a href="about.html" class="active-dark">メニュー <i class="fa-solid fa-plus" style="font-size: 0.8em; margin-left: auto; display: none;"></i></a></li> 
+                <li><a href="members.html">キャンペーン</a></li> 
+                <li><a href="events.html">ファミリー</a></li>
+                <li><a href="index.html">サステナビリティ</a></li>
+                <li><a href="index.html">お店・サービス</a></li>
+                <hr style="width: 100%; border: 0; border-top: 1px solid #eee; margin: 10px 0;">
+                <li><a href="#" style="font-size: 1em;">採用情報</a></li>
+                <li><a href="#" style="font-size: 1em;">公式アプリ</a></li>
+                <li><a href="#" style="font-size: 1em; color: #004d99;"><i class="fa-solid fa-magnifying-glass"></i> 検索</a></li>
             </ul>
         </nav>
     </header>
 
     <section class="event-banner">
-        <h1>成員組織名錄</h1>
-        <div class="banner-info-wrap">
-            <span><i class="fa-solid fa-calendar-check"></i> 創立時間：2019/07/03</span>
-            <span><i class="fa-solid fa-crown"></i> 創辦人：班長</span>
+        <div class="banner-content">
+            <h1>活動模板</h1>
         </div>
     </section>
 
     <main class="event-content-area">
-        <div class="org-image-container">
-            <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/%E7%AB%8B%E6%B3%95%E9%99%A2%E5%A4%A7%E9%A0%AD%E8%B2%BC.png?raw=true" alt="立法院大頭貼" class="org-logo">
-        </div>
-
-        <div class="section-title">現任成員名單</div>
-        <div class="member-grid">
-            <div class="member-card"><div class="m-name">吳承翰</div><div class="m-party">外星黨</div></div>
-            <div class="member-card"><div class="m-name">Kenwick 凱薩正德</div><div class="m-party">民禁黨</div></div>
-            <div class="member-card"><div class="m-name">丁俊齊</div><div class="m-party">餵不飽的狼</div></div>
-            <div class="member-card"><div class="m-name">劉書銘</div><div class="m-party">不分藍綠</div></div>
-            <div class="member-card"><div class="m-name">許哲遠</div><div class="m-party">正統官媒</div></div>
-            <div class="member-card"><div class="m-name">張祐瑜</div><div class="m-party">學霸</div></div>
-            <div class="member-card"><div class="m-name">張皓鈞</div><div class="m-party">老司機</div></div>
-            <div class="member-card"><div class="m-name">黃祐祥</div><div class="m-party">王山姆姆</div></div>
-            <div class="member-card"><div class="m-name">梁博峻</div><div class="m-party">動漫宅</div></div>
-            <div class="member-card"><div class="m-name">柯隆勳</div><div class="m-party">人生勝利組<br>見色忘友的國冥黨</div></div>
-            <div class="member-card"><div class="m-name">葉光庭</div><div class="m-party">跳蛋專題</div></div>
-            <div class="member-card"><div class="m-name">葉奕賢</div><div class="m-party">God</div></div>
-            <div class="member-card"><div class="m-name">許智皓</div><div class="m-party">飆酷車神</div></div>
-            <div class="member-card"><div class="m-name">鄭至軒</div><div class="m-party">潛艇堡愛好者</div></div>
-            <div class="member-card"><div class="m-name">陳佳偉</div><div class="m-party">電阻爆破專家</div></div>
-            <div class="member-card"><div class="m-name">王崇憲</div><div class="m-party">橘黨</div></div>
-            <div class="member-card"><div class="m-name">王尊玄</div><div class="m-party">白色力量</div></div>
-            <div class="member-card"><div class="m-name">王凱駿</div><div class="m-party">飛行大隊長</div></div>
-            <div class="member-card"><div class="m-name">王成一</div><div class="m-party">北科大學霸</div></div>
-            <div class="member-card"><div class="m-name">陳俊諺</div><div class="m-party">大食客經紀人</div></div>
-            <div class="member-card"><div class="m-name">郭江旭</div><div class="m-party">麻豆傳媒 前撩眉高手</div></div>
-            <div class="member-card"><div class="m-name">庄柏鑫</div><div class="m-party">安南共產黨總書記</div></div>
-            <div class="member-card"><div class="m-name">吳宗航</div><div class="m-party">中和製漆 前南台 Toyota</div></div>
-        </div>
-
-        <div class="section-title">已消失成員名單</div>
-        <div class="member-grid">
-            <div class="member-card gone-member"><div class="m-name">鄭仕杰</div><div class="m-party">lu^3</div></div>
-            <div class="member-card gone-member"><div class="m-name">陳柏睿</div><div class="m-party">痘痘</div></div>
-            <div class="member-card gone-member"><div class="m-name">陳相睿</div><div class="m-party">帥哥猛男 為什麼愛說謊</div></div>
+        <div class="event-info">
+            <p>點擊手機版左上角的漢堡選單查看效果。</p>
+            <hr style="border: 0; border-top: 1px solid #ddd; margin: 30px 0;">
         </div>
     </main>
 
-    <a href="#" class="back-to-top" title="回到最頂端"><i class="fa-solid fa-chevron-up"></i></a>
+    <a href="#" class="back-to-top" title="回到最頂端">
+        <i class="fa-solid fa-chevron-up"></i>
+    </a>
 
     <footer>
-        <p>© 2026 立法院 Legislature. All rights reserved.</p>
+        <p>© 2025 立法院 Legislature. All rights reserved.</p>
     </footer>
 
+    <script>
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+            
+            // 開啟選單時禁止頁面捲動
+            if(navLinks.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'auto';
+            }
+        }
+    </script>
 </body>
 </html>
