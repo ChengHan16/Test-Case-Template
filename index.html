@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>立法院-網頁模板</title>
+    <title>立法院 - 成員組織名錄</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <style>
+        /* --- 基礎樣式與防溢出 --- */
         html { scroll-behavior: smooth; }
         html, body { max-width: 100%; overflow-x: hidden; margin: 0; padding: 0; }
 
         body {
             font-family: "Noto Sans TC", "Arial", sans-serif;
-            margin: 0; padding: 0;
             background-color: #f4f4f4;
             color: #333;
             display: flex;
@@ -20,13 +20,11 @@
             min-height: 100vh;
         }
 
-        /* --- 1. 導覽列樣式 (電腦版維持原樣) --- */
-        .navbar-static {
+        /* --- 1. 導覽列樣式 --- */
+        /*.navbar-static {
             background-color: #1a237e;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            z-index: 1100;
-            position: relative;
         }
 
         .navbar-full {
@@ -34,6 +32,25 @@
             justify-content: space-between;
             align-items: center;
             padding: 15px 40px;
+        }*/
+
+        .navbar-static {
+            background-color: #1a237e;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%; /* 確保背景寬度 100% */
+        }
+
+        /* 2. 導覽列內部內容：負責限制寬度並置中 */
+        .navbar-full {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px; /* 內距調整 */
+            
+            /* 關鍵修改：限制最大寬度並置中 */
+            max-width: 1100px;  /* 建議與你的 .event-content-area 寬度一致 */
+            margin: 0 auto;    /* 左右自動外距，達成置中效果 */
         }
 
         .logo {
@@ -43,96 +60,382 @@
             display: flex;
             align-items: center;
         }
+
         .logo-circle {
             background-color: #ffcc00;
             color: #1a237e;
-            width: 32px; height: 30px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-            margin-right: 5px; font-weight: 700;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 10px;
+            font-weight: 700;
         }
 
-        .nav-links { list-style: none; display: flex; margin: 0; padding: 0; }
-        .nav-links li { margin-left: 30px; }
-        .nav-links a {
-            color: white; text-decoration: none; font-weight: 500;
-            padding: 8px 15px; transition: all 0.3s;
+        .nav-links {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
         }
+
+        .nav-links li { margin-left: 30px; }
+        .nav-links a { color: white; text-decoration: none; font-weight: 500; padding: 8px 15px; transition: 0.3s; }
         .nav-links a:hover { border-bottom: 2px solid #ffcc00; }
         .nav-links a.active-dark { background-color: #004d99; border-radius: 4px; color: white !important; }
 
-        /* 手機版專用按鈕 (預設隱藏) */
-        .mobile-btn { display: none; }
-
-        /* --- 2. Banner 與 內容 --- */
+        /* --- 2. 活動詳情 Banner 樣式 --- */
         .event-banner {
             background: linear-gradient(135deg, #1a237e 0%, #0d1241 100%);
-            color: white; padding: 30px 20px; text-align: center;
+            color: white;
+            padding: 60px 20px; /* 保持你要求的內距 */
+            text-align: center;
             border-bottom: 4px solid #ffcc00;
-        }
-        .event-banner h1 { font-size: 3.5em; margin: 0; letter-spacing: 2px; }
-        .event-content-area { max-width: 900px; margin: 0 auto; padding: 40px 20px; flex: 1; }
-        footer { text-align: center; padding: 30px; background-color: #1a237e; color: white; font-size: 0.8em; }
 
+            /* --- 新增以下屬性來固定範圍 --- */
+            height: 240px;           /* 設定一個固定的總高度 */
+            box-sizing: border-box;  /* 確保 padding 不會額外撐大這 300px */
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* 讓內容在固定高度內垂直居中 */
+            overflow: hidden;        /* 萬一文字真的太多，強制裁切不溢出 */
+        }
+
+        .event-banner h1 { font-size: 3.5em; margin: 0; letter-spacing: 2px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+
+        .banner-info-wrap {
+            display: flex;
+            flex-direction: column; /* 關鍵：由水平改為垂直排列 */
+            align-items: center;    /* 讓內容在垂直排列時依然保持居中 */
+            gap: 15px;             /* 設定兩行之間的距離 */
+            margin-top: 20px;
+            font-size: 1.1em;
+            color: #ffcc00;
+        }
+
+        /* --- 3. 主要內容區域 --- */
+        .event-content-area {
+            max-width: 1100px; /* 限制內容寬度，確保 3-4 個卡片視覺比例最美 */
+            margin: 0 auto;
+            padding: 40px 20px;
+            flex: 1;
+        }
+
+        .org-image-container { text-align: center; margin-bottom: 50px; }
+        .org-logo {
+            width: 180px; height: 180px; border-radius: 50%;
+            border: 6px solid white; box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            object-fit: cover;
+        }
+
+        .section-title {
+            border-left: 6px solid #1a237e;
+            padding-left: 15px;
+            margin: 50px 0 25px;
+            color: #1a237e;
+            font-size: 1.6em;
+            font-weight: bold;
+        }
+
+        /* --- 4. 關鍵優化：網頁版並排 3-4 個卡片 --- */
+        .member-grid {
+            display: grid !important; /* 強制啟動網格 */
+            /* 電腦版預設：並排 4 個，每個佔 1 份等寬比例 */
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 25px;
+            margin-top: 20px;
+            width: 100%; /* 確保容器撐開 */
+        }
+
+        .member-card {
+            background: white;
+            padding: 30px 15px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            border-top: 5px solid #1a237e;
+            transition: all 0.3s ease;
+            /* 移除可能干擾並排的寬度限制 */
+            width: auto; 
+        }
+        .member-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 20px rgba(26, 35, 126, 0.15);
+            border-top-color: #ffcc00;
+        }
+
+        .m-name { font-weight: bold; font-size: 1.3em; color: #111; margin-bottom: 10px; }
+        .m-party { font-size: 1em; color: #666; line-height: 1.5; }
+
+        .gone-member { background-color: #fafafa; border-top-color: #9e9e9e; opacity: 0.7; }
+
+        /* --- 5. 其他元件 --- */
         .back-to-top {
-            position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px;
-            background-color: #1a237e; color: white; border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-            z-index: 1000; border: 2px solid #ffcc00; transition: 0.3s;
+            position: fixed; bottom: 30px; right: 30px;
+            width: 50px; height: 50px; background-color: #1a237e;
+            color: white; border-radius: 50%; display: flex;
+            justify-content: center; align-items: center; z-index: 1000;
+            border: 2px solid #ffcc00; transition: 0.3s;
         }
 
-        /* ============================================================
-           手機版本優化 (仿圖片漢堡選單設計)
-           ============================================================ */
+        footer { text-align: center; padding: 5px 20px; background-color: #1a237e; color: white; font-size: 0.8em; }
+
+        /* =============================================
+           響應式優化
+           ============================================= */
+        @media (max-width: 992px) {
+            /* 平板寬度時改為固定 3 個或自動排列 */
+            .member-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+        }
+
+        /* =============================================
+        響應式優化 (手機版 768px 以下)
+        ============================================= */
         @media (max-width: 768px) {
-            /* 1. 導覽列改為白色背景，Logo 置中 */
-            .navbar-static { background-color: white; border-bottom: 1px solid #ddd; }
-            .navbar-full { padding: 10px 15px; position: relative; }
+            /* 1. 調整導覽列外殼，縮小內距 */
+            .navbar-full { 
+                flex-direction: column; 
+                padding: 10px 5px; 
+            }
 
-            .logo { color: #1a237e; position: absolute; left: 50%; transform: translateX(-50%); font-size: 1.2em; }
-            .logo-circle { background-color: #ffcc00; border: 1px solid #1a237e; }
+            /* 2. 調整導覽連結容器 */
+            .nav-links { 
+                margin-top: 10px; 
+                width: 100%; 
+                justify-content: center; /* 置中 */
+                display: flex;
+                flex-wrap: nowrap;      /* 關鍵：強制絕對不換行 */
+                padding: 12px 0 5px 0;
+                border-top: 1px solid rgba(255,255,255,0.1);
+            }
 
-            /* 2. 顯示漢堡選單按鈕與搜尋按鈕 */
-            .mobile-btn { display: block; font-size: 1.5em; color: #333; cursor: pointer; }
+            /* 3. 調整清單項目 */
+            .nav-links li { 
+                margin: 0 4px;          /* 縮小項目間的間距 */
+                flex-shrink: 1;         /* 允許項目在必要時縮小 */
+            }
 
-            /* 3. nav-links 轉化為側邊滑出選單 */
-            .nav-links {
-                position: fixed; top: 0; left: -100%; /* 平時藏在左側外 */
-                width: 100%; height: 100vh;
-                background-color: white;
+            /* 4. 調整文字大小與行為 */
+            .nav-links a { 
+                padding: 5px 8px;       /* 縮小按鈕內距 */
+                
+                /* 使用 clamp 讓字體在 12px 到 14px 之間隨螢幕自動縮放 */
+                font-size: clamp(12px, 3.2vw, 14px); 
+                
+                white-space: nowrap;    /* 關鍵：文字絕對不換行 */
+                letter-spacing: -0.5px; /* 稍微縮小字距，節省空間 */
+            }
+
+            .member-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 12px;
+            }
+            
+            針對您要求的手機版 Banner 資訊換行 
+            .banner-info-wrap {
                 flex-direction: column;
-                align-items: flex-start;
-                padding: 60px 25px;
-                transition: 0.4s ease-in-out;
-                z-index: 1200;
-                box-sizing: border-box;
-                overflow-y: auto;
+                gap: 10px;
+            }
+        }
+
+        @media (max-width: 1100px) {
+            .member-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        /* 當螢幕較小（手機版）改為並排 2 個 
+        @media (max-width: 768px) {
+            .member-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 12px;
+            }
+            
+            /* 針對您要求的手機版 Banner 資訊換行 
+            .banner-info-wrap {
+                flex-direction: column;
+                gap: 10px;
+            }*/
+
+        /* --- 2. 次級 Banner 樣式 (深藍色底) --- */
+        .page-banner {
+            background-color: #1a237e; /* 主深藍色 */
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .banner-content h2 {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .banner-content p {
+            font-size: 1.1em;
+            max-width: 700px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
+
+        /* --- 3. 主要內容區域 (成員介紹) --- */
+        /* 成員列表容器 - 使用 Flexbox 實現置中和換行 */
+        .member-list {
+            display: flex;
+            flex-wrap: wrap; 
+            justify-content: center; /* 水平置中 */
+            gap: 30px; /* 卡片間距 */
+            padding: 60px 40px;
+            max-width: 1200px;
+            margin: 0 auto; /* 確保整個列表在頁面居中 */
+        }
+
+        /* 單個成員卡片樣式 */
+        .member-item {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            width: 180px; 
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .member-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        /* 成員圖片容器 - 圓形圖片效果 */
+        .member-image-wrapper {
+            width: 140px; 
+            height: 140px;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid #020093; /* 黃色邊框 */
+        }
+
+        .member-image-wrapper02 {
+            width: 100px;
+            height: 140px;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid #020093; /* 黃色邊框 */
+        }
+
+        .member-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* 關鍵：確保圖片填滿容器並保持比例 */
+            display: block;
+        }
+
+        .member-image-wrapper02 img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* 關鍵：確保圖片填滿容器並保持比例 */
+            display: block;
+        }
+        
+        /* 職稱樣式 */
+        .member-title {
+            font-size: 1.1em;
+            color: #1a237e; /* 深藍色 */
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        /* 成員姓名樣式 */
+        .member-name-placeholder {
+            font-size: 1.4em;
+            font-weight: 700;
+            color: #004d99; /* 次深藍色 */
+            margin-bottom: 10px;
+            /* 修正：如果使用真實姓名，請將 class 名稱改成 .member-name */
+        }
+        
+
+        /* --- 4. 頁腳樣式 (深藍色底) --- */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #1a237e; 
+            color: white;
+            font-size: 0.8em;
+        }
+        
+        
+        /* --- 5. RWD 響應式調整 --- */
+        @media (max-width: 900px) {
+            .navbar-full {
+                flex-direction: column;
+                padding: 15px 20px;
+            }
+            .nav-links {
+                margin-top: 10px;
+            }
+            .nav-links li {
+                margin: 0 10px;
+            }
+            .member-list {
+                padding: 40px 20px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .nav-links li {
+                margin-bottom: 5px;
+            }
+            .member-item {
+                width: 140px; /* 手機上縮小卡片寬度 */
+            }
+            .member-image-wrapper {
+                width: 100px; /* 手機上縮小圖片 */
+                height: 100px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            /* 1. 調整導覽列外殼，縮小內距 */
+            .navbar-full { 
+                flex-direction: column; 
+                padding: 10px 5px; 
             }
 
-            /* 當選單開啟時的狀態 */
-            .nav-links.active { left: 0; }
-
-            .nav-links li { margin: 0; width: 100%; border-bottom: 1px solid #eee; }
-            .nav-links li:last-child { border-bottom: none; }
-
-            .nav-links a {
-                color: #333; font-size: 1.1em; display: flex;
-                justify-content: space-between; align-items: center;
-                padding: 15px 0; width: 100%;
+            /* 2. 調整導覽連結容器 */
+            .nav-links { 
+                margin-top: 10px; 
+                width: 100%; 
+                justify-content: center; /* 置中 */
+                display: flex;
+                flex-wrap: nowrap;      /* 關鍵：強制絕對不換行 */
+                padding: 12px 0 5px 0;
+                border-top: 1px solid rgba(255,255,255,0.1);
             }
 
-            /* 仿照圖片中的 "+" 符號設計 */
-            .nav-links a::after { content: '\f067'; font-family: 'Font Awesome 6 Free'; font-weight: 900; font-size: 0.8em; color: #999; }
-            .nav-links a.active-dark { background-color: transparent; color: #1a237e !important; font-weight: bold; }
-
-            /* 選單內的頂部關閉按鈕 */
-            .menu-header {
-                display: flex; justify-content: space-between; align-items: center;
-                position: absolute; top: 0; left: 0; width: 100%; padding: 10px 15px;
-                box-sizing: border-box; border-bottom: 1px solid #eee;
+            /* 3. 調整清單項目 */
+            .nav-links li { 
+                margin: 0 4px;          /* 縮小項目間的間距 */
+                flex-shrink: 1;         /* 允許項目在必要時縮小 */
             }
 
-            .event-banner h1 { font-size: 2em; }
+            /* 4. 調整文字大小與行為 */
+            .nav-links a { 
+                padding: 5px 8px;       /* 縮小按鈕內距 */
+                
+                /* 使用 clamp 讓字體在 12px 到 14px 之間隨螢幕自動縮放 */
+                font-size: clamp(12px, 3.2vw, 14px); 
+                
+                white-space: nowrap;    /* 關鍵：文字絕對不換行 */
+                letter-spacing: -0.5px; /* 稍微縮小字距，節省空間 */
+            }
         }
     </style>
 </head>
@@ -140,78 +443,298 @@
 
     <header class="navbar-static">
         <nav class="navbar-full">
-            <div class="mobile-btn" onclick="toggleMenu()">
-                <i class="fa-solid fa-bars"></i>
-            </div>
-
-            <div class="logo">
-                <div class="logo-circle">立</div> 立法院 
-            </div>
-
-            <div class="mobile-btn">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </div>
-
-            <ul class="nav-links" id="navLinks">
-                <div class="menu-header" onclick="toggleMenu()" style="display: none;">
-                    <i class="fa-solid fa-xmark" style="font-size: 1.5em; cursor: pointer;"></i>
-                    <div class="logo" style="color: #1a237e; position: static; transform: none;">
-                        <div class="logo-circle">立</div> 立法院 
-                    </div>
-                    <i class="fa-solid fa-magnifying-glass" style="font-size: 1.5em; opacity: 0;"></i>
-                </div>
-                
+            <div class="logo"><div class="logo-circle">立</div> 立法院 Legislature</div>
+            <ul class="nav-links">
                 <li><a href="index.html">首頁</a></li>
-                <li><a href="about.html" class="active-dark">關於我們</a></li> 
-                <li><a href="members.html">組織成員</a></li> 
+                <li><a href="about.html">關於我們</a></li> 
+                <li><a href="members.html"class="active-dark">成員介紹</a></li> 
                 <li><a href="events.html">活動行程</a></li>
-                <!--<li><a href="#" style="color: #1a237e; font-size: 1em;"><i class="fa-solid fa-magnifying-glass"></i> 検索</a></li>-->
+                <li><a href="index.html">其他</a></li>
             </ul>
         </nav>
     </header>
 
     <section class="event-banner">
-        <div class="banner-content">
-            <h1>活動模板</h1>
+        <h1>成員介紹</h1>
+
+        <div class="banner-info-wrap">
+            <span><i class="fa-solid fa-calendar-check"></i> 團隊成員介紹</span>
+            <span><i class="fa-solid fa-crown"></i> 人員編制說明</span>
         </div>
     </section>
 
-    <main class="event-content-area">
-        <div class="event-info">
-            <p>手機模式下，上方導覽列會變為白色背景、Logo 置中，並提供側邊選單功能。</p>
-            <hr style="border: 0; border-top: 1px solid #ddd; margin: 30px 0;">
+    <main class="member-list">
+        
+        <div class="member-item">
+            <div class="member-name-placeholder">成員 1</div>
+            <div class="member-image-wrapper">
+                <a href="info-leader.html">
+                    <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/leader2.png?raw=true" alt="成員 1 頭像">
+                </a>
+            </div>
+            <div class="member-title">班長</div>
         </div>
+
+        <div class="member-item">
+            <div class="member-name-placeholder">成員 2</div>
+            <div class="member-image-wrapper">
+                <a href="info-momoe.html">
+                    <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/MOMOE.png?raw=true" alt="成員 2 頭像">
+                </a>
+            </div>
+            <div class="member-title">もも</div>
+        </div>
+
+        <div class="member-item">
+            <div class="member-name-placeholder">成員 3</div>
+            <div class="member-image-wrapper">
+                <a href="info-Ding_Junqi.html">
+                    <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Ding_Junqi.png?raw=true" alt="成員 3 頭像">
+                </a>
+            </div>
+            <div class="member-title">俊齊</div>
+        </div>
+
+        <div class="member-item">
+            <div class="member-name-placeholder">成員 4</div>
+            <div class="member-image-wrapper">
+                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Deltataforce.png?raw=true" alt="成員 4 頭像">
+            </div>
+            <div class="member-title">佳偉</div>
+        </div>
+
+        <div class="member-item">
+            <div class="member-name-placeholder">成員 5</div>
+            <div class="member-image-wrapper">
+                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Liu%20Shuming.png?raw=true" alt="成員 5 頭像">
+            </div>
+            <div class="member-title">書銘</div>
+        </div>
+
+        <div class="member-item">
+            <div class="member-name-placeholder">成員 6</div>
+            <div class="member-image-wrapper">
+                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Liang%20Bojun.png?raw=true" alt="成員 6 頭像">
+            </div>
+            <div class="member-title">博俊</div>
+        </div>
+
+        <div class="member-item">
+            <div class="member-name-placeholder">成員 7</div>
+            <div class="member-image-wrapper">
+                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Huang_Weiren.png?raw=true" alt="成員 7 頭像">
+            </div>
+            <div class="member-title">韋仁</div>
+        </div>
+
+        <div class="member-item">
+            <div class="member-name-placeholder">成員 8</div>
+            <div class="member-image-wrapper">
+                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Ye%20Guangting.png?raw=true" alt="成員 8 頭像">
+            </div>
+            <div class="member-title">光庭</div>
+        </div>
+
+        <div class="member-item">
+            <div class="member-name-placeholder">成員 9</div>
+            <div class="member-image-wrapper">
+                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Li_Zhengde.png?raw=true" alt="成員 9 頭像">
+            </div>
+            <div class="member-title">正德</div>
+        </div>
+        
+        <div class="member-item">
+            <div class="member-name-placeholder">成員 10</div>
+            <div class="member-image-wrapper">
+                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Ye_Yixian.png?raw=true" alt="成員 10 頭像">
+            </div>
+            <div class="member-title">奕賢</div>
+        </div>
+
+        <div class="member-item">
+            <div class="member-name-placeholder">成員 11</div>
+            <div class="member-image-wrapper">
+                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Chen%20Weicheng.png?raw=true" alt="成員 11 頭像">
+            </div>
+            <div class="member-title">威丞</div>
+        </div>
+
+        <div class="member-item">
+            <div class="member-name-placeholder">成員 12</div>
+            <div class="member-image-wrapper">
+                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Guo_Jiangxu.png?raw=true" alt="成員 12 頭像">
+            </div>
+            <div class="member-title">江旭</div>
+        </div>
+
+        <div class="member-item">
+            <div class="member-name-placeholder">成員 13</div>
+            <div class="member-image-wrapper">
+                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Wang%20Zunxuan.png?raw=true" alt="成員 13 頭像">
+            </div>
+            <div class="member-title">尊玄</div>
+        </div>
+
+        <div class="member-item">
+            <div class="member-name-placeholder">成員 14</div>
+            <div class="member-image-wrapper">
+                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Mysterious01.png?raw=true" alt="成員 14 頭像">
+            </div>
+            <div class="member-title">俊諺</div>
+        </div>
+
+        <div class="member-item">
+            <div class="member-name-placeholder">成員 15</div>
+            <div class="member-image-wrapper">
+                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Mysterious01.png?raw=true" alt="成員 15 頭像">
+            </div>
+            <div class="member-title">成一</div>
+        </div>
+
+        <div class="member-item">
+            <div class="member-name-placeholder">成員 16</div>
+            <div class="member-image-wrapper">
+                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Mysterious01.png?raw=true" alt="成員 16 頭像">
+            </div>
+            <div class="member-title">崇憲</div>
+        </div>              
+
+        <div class="member-item">
+            <div class="member-name-placeholder">成員 17</div>
+            <div class="member-image-wrapper">
+                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Mysterious01.png?raw=true" alt="成員 17 頭像">
+            </div>
+            <div class="member-title">凱駿</div>
+        </div>      
+
+        <div class="member-item">
+            <div class="member-name-placeholder">成員 18</div>
+            <div class="member-image-wrapper">
+                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Mysterious01.png?raw=true" alt="成員 18 頭像">
+            </div>
+            <div class="member-title">宗航</div>
+        </div>      
+
+        <div class="member-item">
+            <div class="member-name-placeholder">成員 19</div>
+            <div class="member-image-wrapper">
+                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Mysterious01.png?raw=true" alt="成員 19 頭像">
+            </div>
+            <div class="member-title">鈞儒</div>
+        </div>      
+
+        <div class="member-item">
+            <div class="member-name-placeholder">成員 20</div>
+            <div class="member-image-wrapper">
+                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Mysterious01.png?raw=true" alt="成員 20 頭像">
+            </div>
+            <div class="member-title">承遠</div>
+        </div>      
+
+        <div class="member-item">
+            <div class="member-name-placeholder">成員 21</div>
+            <div class="member-image-wrapper">
+                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Mysterious01.png?raw=true" alt="成員 21 頭像">
+            </div>
+            <div class="member-title">凱瑞</div>
+        </div>
+        
+        <div class="member-item">
+            <div class="member-name-placeholder">成員 22</div>
+            <div class="member-image-wrapper">
+                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Mysterious01.png?raw=true" alt="成員 22 頭像">
+            </div>
+            <div class="member-title">智皓</div>
+        </div>  
+
+        <div class="member-item">
+            <div class="member-name-placeholder">成員 23</div>
+            <div class="member-image-wrapper">
+                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Mysterious01.png?raw=true" alt="成員 23 頭像">
+            </div>
+            <div class="member-title">哲遠</div>
+        </div>  
+
+        <div class="member-item">
+            <div class="member-name-placeholder">成員 24</div>
+            <div class="member-image-wrapper">
+                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Mysterious01.png?raw=true" alt="成員 24 頭像">
+            </div>
+            <div class="member-title">皓鈞</div>
+        </div>  
+
+        <div class="member-item">
+            <div class="member-name-placeholder">成員 25</div>
+            <div class="member-image-wrapper">
+                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Mysterious01.png?raw=true" alt="成員 25 頭像">
+            </div>
+            <div class="member-title">祐瑜</div>
+        </div>  
+
+        <div class="member-item">
+            <div class="member-name-placeholder">成員 26</div>
+            <div class="member-image-wrapper">
+                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Mysterious01.png?raw=true" alt="成員 26 頭像">
+            </div>
+            <div class="member-title">智軒</div>
+        </div>
+
+        <div class="member-item">
+            <div class="member-name-placeholder">成員 27</div>
+            <div class="member-image-wrapper">
+                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Mysterious01.png?raw=true" alt="成員 27 頭像">
+            </div>
+            <div class="member-title">隆勳</div>
+        </div> 
+
+        <div class="member-item">
+            <div class="member-name-placeholder">成員 28</div>
+            <div class="member-image-wrapper">
+                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Mysterious01.png?raw=true" alt="成員 28 頭像">
+            </div>
+            <div class="member-title">鎮遠</div>
+        </div>  
+
+        <div class="member-item">
+            <div class="member-name-placeholder">成員 29</div>
+            <div class="member-image-wrapper">
+                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Mysterious01.png?raw=true" alt="成員 29 頭像">
+            </div>
+            <div class="member-title">冠叡</div>
+        </div>  
+
+        <div class="member-item">
+            <div class="member-name-placeholder">成員 30</div>
+            <div class="member-image-wrapper">
+                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Mysterious01.png?raw=true" alt="成員 30 頭像">
+            </div>
+            <div class="member-title">柏鑫</div>
+        </div>  
+
+        <div class="member-item">
+            <div class="member-name-placeholder">成員 31</div>
+            <div class="member-image-wrapper">
+                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Mysterious01.png?raw=true" alt="成員 31 頭像">
+            </div>
+            <div class="member-title">承謬</div>
+        </div>  
+
+        <div class="member-item">
+            <div class="member-name-placeholder">成員 00</div>
+            <div class="member-image-wrapper">
+                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Mysterious01.png?raw=true" alt="成員 00 頭像">
+            </div>
+            <div class="member-title">**</div>
+        </div>
+        
     </main>
 
-    <a href="#" class="back-to-top" title="回到最頂端">
-        <i class="fa-solid fa-chevron-up"></i>
-    </a>
+    <a href="#" class="back-to-top" title="回到最頂端"><i class="fa-solid fa-chevron-up"></i></a>
 
     <footer>
-        <p>© 2025 立法院 Legislature. All rights reserved.</p>
+        <p>© 2026 立法院 Legislature. All rights reserved.</p>
     </footer>
 
-    <script>
-        // 控制選單開關
-        function toggleMenu() {
-            const menu = document.getElementById('navLinks');
-            menu.classList.toggle('active');
-            
-            // 當選單開啟時禁止背景滾動
-            if(menu.classList.contains('active')) {
-                document.body.style.overflow = 'hidden';
-            } else {
-                document.body.style.overflow = 'auto';
-            }
-        }
-
-        // 監聽螢幕縮放，若切換回桌機版需清除禁止滾動設定
-        window.addEventListener('resize', () => {
-            if (window.innerWidth > 768) {
-                document.body.style.overflow = 'auto';
-                document.getElementById('navLinks').classList.remove('active');
-            }
-        });
-    </script>
 </body>
 </html>
+
