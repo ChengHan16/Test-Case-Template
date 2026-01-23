@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>立法院 - 成員組織名錄</title>
+    <title>立法院 - 成員介紹：葉光庭</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <style>
@@ -21,36 +21,20 @@
         }
 
         /* --- 1. 導覽列樣式 --- */
-        /*.navbar-static {
-            background-color: #1a237e;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .navbar-full {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 40px;
-        }*/
-
         .navbar-static {
             background-color: #1a237e;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            width: 100%; /* 確保背景寬度 100% */
+            width: 100%;
         }
 
-        /* 2. 導覽列內部內容：負責限制寬度並置中 */
         .navbar-full {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 20px; /* 內距調整 */
-            
-            /* 關鍵修改：限制最大寬度並置中 */
-            max-width: 1100px;  /* 建議與你的 .event-content-area 寬度一致 */
-            margin: 0 auto;    /* 左右自動外距，達成置中效果 */
+            padding: 15px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
         }
 
         .logo {
@@ -59,6 +43,7 @@
             color: white;
             display: flex;
             align-items: center;
+            text-decoration: none;
         }
 
         .logo-circle {
@@ -86,21 +71,19 @@
         .nav-links a:hover { border-bottom: 2px solid #ffcc00; }
         .nav-links a.active-dark { background-color: #004d99; border-radius: 4px; color: white !important; }
 
-        /* --- 2. 活動詳情 Banner 樣式 --- */
+        /* --- 2. Banner 樣式 (固定高度) --- */
         .event-banner {
             background: linear-gradient(135deg, #1a237e 0%, #0d1241 100%);
             color: white;
-            padding: 60px 20px; /* 保持你要求的內距 */
+            padding: 60px 20px;
             text-align: center;
             border-bottom: 4px solid #ffcc00;
-
-            /* --- 新增以下屬性來固定範圍 --- */
-            height: 240px;           /* 設定一個固定的總高度 */
-            box-sizing: border-box;  /* 確保 padding 不會額外撐大這 300px */
+            height: 240px; 
+            box-sizing: border-box;
             display: flex;
             flex-direction: column;
-            justify-content: center; /* 讓內容在固定高度內垂直居中 */
-            overflow: hidden;        /* 萬一文字真的太多，強制裁切不溢出 */
+            justify-content: center;
+            overflow: hidden;
         }
 
         .event-banner h1 { font-size: 3.5em; margin: 0; letter-spacing: 2px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
@@ -117,59 +100,77 @@
 
         /* --- 3. 主要內容區域 --- */
         .event-content-area {
-            max-width: 1100px; /* 限制內容寬度，確保 3-4 個卡片視覺比例最美 */
+            max-width: 1100px;
             margin: 0 auto;
             padding: 40px 20px;
             flex: 1;
         }
 
-        .org-image-container { text-align: center; margin-bottom: 50px; }
-        .org-logo {
-            width: 180px; height: 180px; border-radius: 50%;
-            border: 6px solid white; box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            margin-bottom: 40px;
+        }
+
+        .photo-section { flex-shrink: 0; text-align: center; }
+        .avatar-img {
+            width: 200px; height: 200px; border-radius: 12px;
+            border: 4px solid #f0f0f0; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
             object-fit: cover;
+        }
+
+        .info-brief h1 { font-size: 42px; color: #1a237e; margin: 0; letter-spacing: 4px; }
+        .nickname { font-size: 20px; color: #666; font-weight: 400; }
+        .blue-line { height: 3px; background: linear-gradient(to right, #1a237e, transparent); width: 300px; margin: 15px 0; }
+
+        .info-card {
+            background: white; 
+            padding: 30px; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
+            margin-bottom: 40px; 
+            border-left: 6px solid #ffcc00;
         }
 
         .section-title {
             border-left: 6px solid #1a237e;
             padding-left: 15px;
-            margin: 50px 0 25px;
+            margin: 40px 0 20px;
             color: #1a237e;
             font-size: 1.6em;
             font-weight: bold;
         }
 
-        /* --- 4. 關鍵優化：網頁版並排 3-4 個卡片 --- */
+        /* --- 4. 網格佈局 (經歷與研究) --- */
         .member-grid {
-            display: grid !important; /* 強制啟動網格 */
-            /* 電腦版預設：並排 4 個，每個佔 1 份等寬比例 */
-            grid-template-columns: repeat(4, 1fr); 
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); 
             gap: 25px;
             margin-top: 20px;
-            width: 100%; /* 確保容器撐開 */
+            width: 100%;
         }
 
         .member-card {
             background: white;
-            padding: 30px 15px;
+            padding: 25px;
             border-radius: 12px;
-            text-align: center;
             box-shadow: 0 4px 10px rgba(0,0,0,0.05);
             border-top: 5px solid #1a237e;
             transition: all 0.3s ease;
-            /* 移除可能干擾並排的寬度限制 */
-            width: auto; 
-        }
-        .member-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 20px rgba(26, 35, 126, 0.15);
-            border-top-color: #ffcc00;
         }
 
-        .m-name { font-weight: bold; font-size: 1.3em; color: #111; margin-bottom: 10px; }
-        .m-party { font-size: 1em; color: #666; line-height: 1.5; }
+        .tag {
+            display: inline-block; background: #e8eaf6; color: #3f51b5;
+            padding: 2px 8px; border-radius: 4px; font-size: 12px; margin-bottom: 10px;
+        }
 
-        .gone-member { background-color: #fafafa; border-top-color: #9e9e9e; opacity: 0.7; }
+        .m-title { font-weight: bold; font-size: 1.2em; color: #111; margin-bottom: 8px; display: block; }
+        .m-desc { font-size: 0.95em; color: #666; line-height: 1.6; }
 
         /* --- 5. 其他元件 --- */
         .back-to-top {
@@ -178,229 +179,49 @@
             color: white; border-radius: 50%; display: flex;
             justify-content: center; align-items: center; z-index: 1000;
             border: 2px solid #ffcc00; transition: 0.3s;
+            text-decoration: none;
         }
 
-        footer { text-align: center; padding: 5px 20px; background-color: #1a237e; color: white; font-size: 0.8em; }
+        footer { text-align: center; padding: 25px; background-color: #1a237e; color: white; font-size: 0.9em; }
 
         /* =============================================
-           響應式優化
+           響應式優化 (RWD)
            ============================================= */
-        @media (max-width: 992px) {
-            /* 平板寬度時改為固定 3 個或自動排列 */
-            .member-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
-        }
-
-        /* =============================================
-        響應式優化 (手機版 768px 以下)
-        ============================================= */
         @media (max-width: 768px) {
-            /* 1. 調整導覽列外殼，縮小內距 */
-            .navbar-full { 
-                flex-direction: column; 
-                padding: 10px 5px; 
-            }
-
-            /* 2. 調整導覽連結容器 */
+            .navbar-full { flex-direction: column; padding: 10px 5px; }
             .nav-links { 
-                margin-top: 10px; 
-                width: 100%; 
-                justify-content: center; /* 置中 */
-                display: flex;
-                flex-wrap: nowrap;      /* 關鍵：強制絕對不換行 */
-                padding: 12px 0 5px 0;
-                border-top: 1px solid rgba(255,255,255,0.1);
+                margin-top: 10px; width: 100%; justify-content: center; display: flex;
+                flex-wrap: nowrap; padding: 10px 0 5px 0; border-top: 1px solid rgba(255,255,255,0.1);
             }
+            .nav-links li { margin: 0 4px; flex-shrink: 1; }
+            .nav-links a { padding: 5px 8px; font-size: clamp(12px, 3.2vw, 14px); white-space: nowrap; }
 
-            /* 3. 調整清單項目 */
-            .nav-links li { 
-                margin: 0 4px;          /* 縮小項目間的間距 */
-                flex-shrink: 1;         /* 允許項目在必要時縮小 */
-            }
-
-            /* 4. 調整文字大小與行為 */
-            .nav-links a { 
-                padding: 5px 8px;       /* 縮小按鈕內距 */
-                
-                /* 使用 clamp 讓字體在 12px 到 14px 之間隨螢幕自動縮放 */
-                font-size: clamp(12px, 3.2vw, 14px); 
-                
-                white-space: nowrap;    /* 關鍵：文字絕對不換行 */
-                letter-spacing: -0.5px; /* 稍微縮小字距，節省空間 */
-            }
-
-            .member-grid {
-                grid-template-columns: repeat(2, 1fr) !important;
-                gap: 12px;
-            }
-            .banner-info-wrap {
-                flex-direction: column;
-                gap: 10px;
-            }
-        }
-
-        @media (max-width: 1100px) {
-            .member-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
-        /* 當螢幕較小（手機版）改為並排 2 個 
-        @media (max-width: 768px) {
-            .member-grid {
-                grid-template-columns: repeat(2, 1fr) !important;
-                gap: 12px;
-            }
+            .profile-header { flex-direction: column; text-align: center; padding: 30px 20px; }
+            .info-brief h1 { font-size: 32px; }
+            .blue-line { margin: 15px auto; }
             
-            /* 針對您要求的手機版 Banner 資訊換行 
-            .banner-info-wrap {
-                flex-direction: column;
-                gap: 10px;
-            }*/
+            .member-grid { grid-template-columns: 1fr; gap: 20px; }
 
-        /* --- 2. 次級 Banner 樣式 (深藍色底) --- */
-        .page-banner {
-            background-color: #1a237e; /* 主深藍色 */
-            color: white;
-            padding: 80px 20px;
-            text-align: center;
-        }
-
-        .banner-content h2 {
-            font-size: 3em;
-            margin-bottom: 15px;
-        }
-
-        .banner-content p {
-            font-size: 1.1em;
-            max-width: 700px;
-            margin: 0 auto;
-            font-weight: 300;
-        }
-
-        /* --- 3. 主要內容區域 (成員介紹) --- */
-        /* 成員列表容器 - 使用 Flexbox 實現置中和換行 */
-        .member-list {
-            display: flex;
-            flex-wrap: wrap; 
-            justify-content: center; /* 水平置中 */
-            gap: 30px; /* 卡片間距 */
-            padding: 60px 40px;
-            max-width: 1200px;
-            margin: 0 auto; /* 確保整個列表在頁面居中 */
-        }
-
-        /* 單個成員卡片樣式 */
-        .member-item {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            width: 180px; 
-            text-align: center;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .member-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-        }
-
-        /* 成員圖片容器 - 圓形圖片效果 */
-        .member-image-wrapper {
-            width: 140px; 
-            height: 140px;
-            margin: 0 auto 15px;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 4px solid #020093; /* 黃色邊框 */
-        }
-
-        .member-image-wrapper02 {
-            width: 100px;
-            height: 140px;
-            margin: 0 auto 15px;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 4px solid #020093; /* 黃色邊框 */
-        }
-
-        .member-image-wrapper img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* 關鍵：確保圖片填滿容器並保持比例 */
-            display: block;
-        }
-
-        .member-image-wrapper02 img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* 關鍵：確保圖片填滿容器並保持比例 */
-            display: block;
-        }
-        
-        /* 職稱樣式 */
-        .member-title {
-            font-size: 1.1em;
-            color: #1a237e; /* 深藍色 */
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        /* 成員姓名樣式 */
-        .member-name-placeholder {
-            font-size: 1.4em;
-            font-weight: 700;
-            color: #004d99; /* 次深藍色 */
-            margin-bottom: 10px;
-            /* 修正：如果使用真實姓名，請將 class 名稱改成 .member-name */
-        }
-        
-
-        /* --- 4. 頁腳樣式 (深藍色底) --- */
-        footer {
-            text-align: center;
-            padding: 20px;
-            background-color: #1a237e; 
-            color: white;
-            font-size: 0.8em;
-        }
-        
-        
-        /* --- 5. RWD 響應式調整 --- */
-        @media (max-width: 900px) {
-            .navbar-full {
-                flex-direction: column;
-                padding: 15px 20px;
+            /* 1. 調整導覽列外殼，縮小內距 */
+            .navbar-full { 
+                flex-direction: column; 
+                padding: 10px 5px; 
             }
-            .nav-links {
-                margin-top: 10px;
-            }
-            .nav-links li {
-                margin: 0 10px;
-            }
-            .member-list {
-                padding: 40px 20px;
-            }
-        }
 
-        @media (max-width: 600px) {
-            .nav-links {
-                flex-wrap: wrap;
-                justify-content: center;
+            /* 2. 調整導覽連結容器 */
+            .event-card-simple {
+                padding: 20px 15px;      /* 縮小手機版內距 */
+                width: 100%;             /* 寬度跟隨父層的 350px */
+                box-sizing: border-box;  /* 關鍵：確保 padding 不會撐破 350px */
             }
-            .nav-links li {
-                margin-bottom: 5px;
-            }
-            .member-item {
-                width: 140px; /* 手機上縮小卡片寬度 */
-            }
-            .member-image-wrapper {
-                width: 100px; /* 手機上縮小圖片 */
-                height: 100px;
-            }
-        }
 
-        @media (max-width: 768px) {
+            /* 調整日期圓圈，讓 350px 內的空間分配合理 */
+            .event-date-circle {
+                width: 55px;
+                height: 55px;
+                margin-right: 15px;
+            }
+
             /* 1. 調整導覽列外殼，縮小內距 */
             .navbar-full { 
                 flex-direction: column; 
@@ -433,14 +254,6 @@
                 
                 white-space: nowrap;    /* 關鍵：文字絕對不換行 */
                 letter-spacing: -0.5px; /* 稍微縮小字距，節省空間 */
-            }
-
-            .member-item {
-                width: 120px; /* 手機上縮小卡片寬度 */
-            }
-            .member-image-wrapper {
-                width: 100px; /* 手機上縮小圖片 */
-                height: 100px;
             }
         }
     </style>
@@ -461,286 +274,216 @@
     </header>
 
     <section class="event-banner">
-        <h1>成員介紹</h1>
-
+        <h1>成員簡介</h1>
         <div class="banner-info-wrap">
-            <span><i class="fa-solid fa-calendar-check"></i> 團隊成員介紹</span>
-            <span><i class="fa-solid fa-crown"></i> 人員編制說明</span>
+            <span>資通電化學工程委員會</span>
+            <span>人工智慧推論與極限生理研究組</span>
         </div>
     </section>
 
-    <main class="member-list">
-        
-        <div class="member-item">
-            <div class="member-name-placeholder">成員 1</div>
-            <div class="member-image-wrapper">
-                <a href="info-leader.html">
-                    <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/leader2.png?raw=true" alt="成員 1 頭像">
-                </a>
+    <main class="event-content-area">
+        <div class="profile-header">
+            <div class="photo-section">
+                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Ye%20Guangting.png?raw=true" alt="葉光庭照片" class="avatar-img">
             </div>
-            <div class="member-title">班長</div>
+            <div class="info-brief">
+                <span class="nickname">Ye Guangting</span>
+                <h1>葉光庭</h1>
+                <div class="blue-line"></div>
+                <div style="font-size: 1.1em; color: #444; line-height: 2;">
+                    出生地：台灣 <img src="https://raw.githubusercontent.com/ChengHan16/Legislature-Family-Website/c5599eac05dbcdaf97afd7dfabdf762d8d4f7e3a/image/Flag_of_the_Republic_of_China.svg" alt="ROC" style="height:15px; vertical-align: middle; border:1px solid #ddd;"><br>
+                    兵役狀態：替代役 (資通電類別特派人員)<br>
+                    技術職稱：資深邊緣運算架構師 / 推進系統開發工程師<br>
+                    核心研究：演算法透明性、資料隱私與量化推論分析
+                </div>
+            </div>
         </div>
 
-        <div class="member-item">
-            <div class="member-name-placeholder">成員 2</div>
-            <div class="member-image-wrapper">
-                <a href="info-momoe.html">
-                    <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/MOMOE.png?raw=true" alt="成員 2 頭像">
-                </a>
+        <div class="section-title" style="color: #d32f2f;"><i class="fa-solid fa-newspaper" style="margin-right: 10px;"></i> 媒體焦點：突破性重點研究</div>
+        <div class="info-card" style="border-left-color: #d32f2f; background-color: #fffde7;">
+            <div style="display: flex; gap: 30px; align-items: flex-start; flex-wrap: wrap;">
+                <div style="flex: 1; min-width: 300px;">
+                    <h2 style="color: #d32f2f; margin-top: 0; font-size: 1.8em;">
+                        極速震撼：自主研發「噴射動力腳踏車系統」
+                    </h2>
+                    <p style="line-height: 1.8; color: #333; font-size: 1.1em; font-weight: 500;">
+                        本計畫成功將航太級推进技術降維應用於輕量化個人載具，因其突破性的創意與技術難度，獲得國內外媒體爭相報導與學術界高度關注。
+                    </p>
+                    
+                    <h4 style="color: #1a237e; margin: 15px 0 5px 0;"><i class="fa-solid fa-microchip"></i> 核心技術與創新突破</h4>
+                    <p style="color: #555; font-size: 0.95em; line-height: 1.6;">
+                        採用自主開發的「雙旋流燃燒噴射模組」，透過精準的流場耦合控制技術，有效克服小型引擎在高推力下的熱堆積問題。結合 <strong>AI 推論演算</strong> 進行即時壓力補償，使載具在台南市街道測試中展現出卓越的動力銜接效率與結構穩定性。
+                    </p>
+
+                    <h4 style="color: #1a237e; margin: 20px 0 5px 0;"><i class="fa-solid fa-rocket"></i> 實際應用場景 (Practical Applications)</h4>
+                    <p style="color: #555; font-size: 0.95em; line-height: 1.6;">
+                        此項技術的成功不僅止於極速測試，更具備廣泛的應用潛力：
+                    </p>
+                    <ul class="experience-list" style="margin-top: 5px;">
+                        <li><strong>緊急救災與物資投遞：</strong> 於地形複雜區域利用高推力輕量化載具，實現極速穿梭以遞送急救藥品或通信設備。</li>
+                        <li><strong>軍事特種偵察：</strong> 低截獲率的小型噴射推進技術，可用於開發高機動性的單兵巡檢設備或微型無人機平台。</li>
+                        <li><strong>極限運動技術開發：</strong> 為競技運動器材提供動態穩定控制與瞬間推進數據，推動次世代運動科技發展。</li>
+                    </ul>
+
+                    <h4 style="color: #1a237e; margin: 20px 0 5px 0;"><i class="fa-solid fa-eye"></i> 未來展望 (Future Outlook)</h4>
+                    <p style="color: #555; font-size: 0.95em; line-height: 1.6;">
+                        未來將朝向「綠色推进」與「完全自主導航」邁進：
+                    </p>
+                    <ul class="experience-list" style="margin-top: 5px;">
+                        <li><strong>混合動力系統研發：</strong> 結合高性能電池組與氫能噴射技術，在維持震撼推力的同時大幅降低碳排放。</li>
+                        <li><strong>自適應結構材料：</strong> 導入記憶合金與 3D 碳纖維編織，讓車架能隨速度自動調整氣動形態，挑戰物理極限。</li>
+                        <li><strong>跨領域學術輸出：</strong> 預計與<strong>國立智慧醫療研究中心</strong>合作，將流體力學數據應用於人體循環系統之模擬研究。</li>
+                    </ul>
+
+                    <h4 style="color: #1a237e; margin: 20px 0 5px 0;"><i class="fa-solid fa-school"></i> 學校支援與得獎殊榮</h4>
+                    <ul class="experience-list" style="margin-top: 5px;">
+                        <li><strong>跨領域研究支援：</strong> 獲得<strong>資通電作戰單位</strong>技術指導，支援高階 CFD 流體模擬運算資源與抗震結構設計。</li>
+                        <li><strong>全國競賽殊榮：</strong> 榮獲全國大專院校「尖端工程與應用物理」創新競賽特優，技術創意獲得評審團一致肯定。</li>
+                    </ul>
+                </div>
+                
+                <div style="flex: 0 0 380px; max-width: 100%;">
+                    <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Jet-Powered%20Bicycle%20Stuns%20the%20Internet.png?raw=true" alt="噴射動力腳踏車新聞圖" style="width: 100%; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); border: 2px solid #ffcc00;">
+                    <p style="font-size: 0.85em; color: #666; text-align: center; margin-top: 8px; margin-bottom: 20px;">圖：自主研發之噴射動力系統實驗室測試截圖</p>
+
+                    <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Jet-Powered%20Bicycle%20Stuns%20the%20Internet%20Tainan%20City.png?raw=true" alt="台南市街道噴射腳踏車實景" style="width: 100%; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); border: 2px solid #ffcc00;">
+                    <p style="font-size: 0.9em; color: #d32f2f; text-align: center; margin-top: 8px; font-weight: bold;">圖：台南市街道狂飆實景 (實際應用場景模擬)</p>
+                    <p style="font-size: 0.75em; color: #999; text-align: center; margin-top: 5px;">※ 實驗過程均於安全管控環境與專業防護下進行</p>
+                </div>
             </div>
-            <div class="member-title">もも</div>
         </div>
 
-        <div class="member-item">
-            <div class="member-name-placeholder">成員 3</div>
-            <div class="member-image-wrapper">
-                <a href="info-Ding_Junqi.html">
-                    <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Ding_Junqi.png?raw=true" alt="成員 3 頭像">
-                </a>
+        <div class="section-title">實際經驗與專業項目</div>
+        <div class="member-grid">
+            <div class="member-card">
+                <span class="tag">AI Inference</span>
+                <strong class="m-title">AI 人工智慧推論優化</strong>
+                <p class="m-desc">研發高效能模型壓縮技術，將大型神經網路成功佈署於低功耗邊緣運算設備。</p>
             </div>
-            <div class="member-title">俊齊</div>
+            <div class="member-card">
+                <span class="tag">Data Engineering</span>
+                <strong class="m-title">資料前處理與標註工程</strong>
+                <p class="m-desc">建立多維度資料清洗標準，開發自動化圖像與語音標註流，提升訓練樣本品質。</p>
+            </div>
+            <div class="member-card">
+                <span class="tag">NLP</span>
+                <strong class="m-title">自然語言處理應用應用</strong>
+                <p class="m-desc">整合 Transformer 結構於政務文獻分析，實現精確的語意提取與自動摘要功能。</p>
+            </div>
+            <div class="member-card">
+                <span class="tag">Performance</span>
+                <strong class="m-title">低精度運算效能分析</strong>
+                <p class="m-desc">分析 INT8 與混合精度對推論速度的邊際效益，極大化硬體運算資源利用率。</p>
+            </div>
+            <div class="member-card">
+                <span class="tag">Rocketry</span>
+                <strong class="m-title">先進推進器輕量化設計</strong>
+                <p class="m-desc">探討航太級碳纖維複合材料於火箭推進器之應用，優化推重比平衡。 </p>
+            </div>
+            <div class="member-card">
+                <span class="tag">Agriculture</span>
+                <strong class="m-title">特種草藥種植與效果評估</strong>
+                <p class="m-desc">運用物聯網監測技術實踐智慧溫室種植，針對多種具潛力的藥草進行穩定性培育。</p>
+            </div>
+            <div class="member-card">
+                <span class="tag">Evaluation</span>
+                <strong class="m-title">藥草品質管理與技術</strong>
+                <p class="m-desc">建立標準化評估流程，透過質譜分析確認藥草活性成分，量化其生理機能影響。</p>
+            </div>
         </div>
 
-        <div class="member-item">
-            <div class="member-name-placeholder">成員 4</div>
-            <div class="member-image-wrapper">
-                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Deltataforce.png?raw=true" alt="成員 4 頭像">
+        <div class="section-title">學術研究與結構分析</div>
+        <div class="member-grid">
+            <div class="member-card">
+                <span class="tag">研究</span>
+                <strong class="m-title">《公路自行車車架材料創新與結構分析》</strong>
+                <p class="m-desc">針對新型複合材料於車架結構之應用，探討輕量化與極端剛性需求之平衡點。</p>
             </div>
-            <div class="member-title">佳偉</div>
+            <div class="member-card">
+                <span class="tag">實驗和實作經驗</span>
+                <strong class="m-title">《噴射推進系統中流場行為研究》</strong>
+                <p class="m-desc">透過 CFD 數值模擬分析推進系統流場，優化排氣噴嘴幾何形狀與結構耦合效能。</p>
+            </div>
+            <div class="member-card">
+                <span class="tag">研究</span>
+                <strong class="m-title">《人體直腸腔體順應性臨床探討》</strong>
+                <p class="m-desc">分析下消化道容積耐受度與生理極限，研究內臟系統於極端壓力下之功能邊界。</p>
+            </div>
+            <div class="member-card">
+                <span class="tag">實驗和實作經驗</span>
+                <strong class="m-title">《前列腺深層介入技術之安全性分析》</strong>
+                <p class="m-desc">研究深層組織刺激對於生理機能改善之影響，量化評估臨床應用之安全性與極限表現。</p>
+            </div>
+            <div class="member-card">
+                <span class="tag">研究</span>
+                <strong class="m-title">《特定波長光照對癌細胞抑制分析》</strong>
+                <p class="m-desc">實驗分析光動力療法 (PDT) 潛力，探討特定紫光波段於非侵入性腫瘤治療之應用。</p>
+            </div>
+            <div class="member-card">
+                <span class="tag">研究</span>
+                <strong class="m-title">《資料隱私與量化推論安全分析》</strong>
+                <p class="m-desc">聚焦演算法透明性與聯邦學習架構，確保 AI 模型在推論過程中的資訊安全防禦。</p>
+            </div>
         </div>
 
-        <div class="member-item">
-            <div class="member-name-placeholder">成員 5</div>
-            <div class="member-image-wrapper">
-                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Liu%20Shuming.png?raw=true" alt="成員 5 頭像">
-            </div>
-            <div class="member-title">書銘</div>
+        <div class="section-title">專業資格證照 (Professional Credentials)</div>
+        <div class="info-card">
+            <h2 style="color: #1a237e; margin-top: 0; display: flex; align-items: center;">
+                <i class="fa-solid fa-brain" style="margin-right: 12px; color: #ffcc00;"></i> 跨領域技術認證與震撼短文
+            </h2>
+            <p style="line-height: 1.8; color: #333; font-size: 1.1em; font-weight: 500;">
+                當神經網路點亮了智慧的微光，當火焰燃燒出推進的狂熱，我即是未來的主宰！
+            </p>
+            <p style="line-height: 1.8; color: #555;">
+                葉光庭以 0 與 1 的意志，在矽晶片中雕琢無懈可擊的邏輯；轉瞬之間，他以火焰與鋼鐵之名，撕裂空間的阻力。這不只是關於證照的羅列，這是一個工程師對於規則最深沉的蔑視與重塑！從資通電的數位防禦到推進系統的極速實驗，我們在黑暗中張開雙眼，看見的是數位與物理交織出的偉大文明！  </p>
         </div>
-
-        <div class="member-item">
-            <div class="member-name-placeholder">成員 6</div>
-            <div class="member-image-wrapper">
-                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Liang%20Bojun.png?raw=true" alt="成員 6 頭像">
+        <div class="member-grid">
+            <div class="member-card">
+                <strong class="m-title">TensorFlow 深度學習專家認證</strong>
+                <p class="m-desc">掌握卷積神經網路之構建與大規模佈署優化技術。</p>
             </div>
-            <div class="member-title">博俊</div>
-        </div>
-
-        <div class="member-item">
-            <div class="member-name-placeholder">成員 7</div>
-            <div class="member-image-wrapper">
-                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Huang_Weiren.png?raw=true" alt="成員 7 頭像">
+            <div class="member-card">
+                <strong class="m-title">NVIDIA 邊緣運算架構師證書</strong>
+                <p class="m-desc">精通 Jetson 系列平台之硬體加速推論實務。</p>
             </div>
-            <div class="member-title">韋仁</div>
-        </div>
-
-        <div class="member-item">
-            <div class="member-name-placeholder">成員 8</div>
-            <div class="member-image-wrapper">
-                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Ye%20Guangting.png?raw=true" alt="成員 8 頭像">
+            <div class="member-card">
+                <strong class="m-title">AWS 機器學習專業工程師</strong>
+                <p class="m-desc">具備雲端大型 AI 解決方案架構與資料流管理能力。</p>
             </div>
-            <div class="member-title">光庭</div>
-        </div>
-
-        <div class="member-item">
-            <div class="member-name-placeholder">成員 9</div>
-            <div class="member-image-wrapper">
-                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Li_Zhengde.png?raw=true" alt="成員 9 頭像">
+            <div class="member-card">
+                <strong class="m-title">PyTorch 演算法研發高級證照</strong>
+                <p class="m-desc">專注於動態計算圖開發與頂尖模型轉化實務。</p>
             </div>
-            <div class="member-title">正德</div>
-        </div>
-        
-        <div class="member-item">
-            <div class="member-name-placeholder">成員 10</div>
-            <div class="member-image-wrapper">
-                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Ye_Yixian.png?raw=true" alt="成員 10 頭像">
+            <div class="member-card">
+                <strong class="m-title">自然語言處理技術專家 (NLP)</strong>
+                <p class="m-desc">大型語言模型微調與語意精準提取技術認證。</p>
             </div>
-            <div class="member-title">奕賢</div>
-        </div>
-
-        <div class="member-item">
-            <div class="member-name-placeholder">成員 11</div>
-            <div class="member-image-wrapper">
-                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Chen%20Weicheng.png?raw=true" alt="成員 11 頭像">
+            <div class="member-card">
+                <strong class="m-title">AI 資料資安與隱私防護證照</strong>
+                <p class="m-desc">專精於聯邦學習與對抗性攻擊之數位安全防禦。</p>
             </div>
-            <div class="member-title">威丞</div>
-        </div>
-
-        <div class="member-item">
-            <div class="member-name-placeholder">成員 12</div>
-            <div class="member-image-wrapper">
-                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Guo_Jiangxu.png?raw=true" alt="成員 12 頭像">
+            <div class="member-card" style="border-top-color: #4caf50;">
+                <span class="tag">Agritech</span>
+                <strong class="m-title">智慧草藥種植控管證</strong>
+                <p class="m-desc">證明具備自動化農事環境監測與藥草生長參數優化能力。</p>
             </div>
-            <div class="member-title">江旭</div>
-        </div>
-
-        <div class="member-item">
-            <div class="member-name-placeholder">成員 13</div>
-            <div class="member-image-wrapper">
-                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Wang%20Zunxuan.png?raw=true" alt="成員 13 頭像">
+            <div class="member-card" style="border-top-color: #4caf50;">
+                <span class="tag">QC</span>
+                <strong class="m-title">藥草品質鑑定技術證</strong>
+                <p class="m-desc">精通中藥品質檢驗流程與活性成分分析實務作業。</p>
             </div>
-            <div class="member-title">尊玄</div>
-        </div>
-
-        <div class="member-item">
-            <div class="member-name-placeholder">成員 14</div>
-            <div class="member-image-wrapper">
-                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Mysterious01.png?raw=true" alt="成員 14 頭像">
-            </div>
-            <div class="member-title">俊諺</div>
-        </div>
-
-        <div class="member-item">
-            <div class="member-name-placeholder">成員 15</div>
-            <div class="member-image-wrapper">
-                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Mysterious01.png?raw=true" alt="成員 15 頭像">
-            </div>
-            <div class="member-title">成一</div>
-        </div>
-
-        <div class="member-item">
-            <div class="member-name-placeholder">成員 16</div>
-            <div class="member-image-wrapper">
-                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Mysterious01.png?raw=true" alt="成員 16 頭像">
-            </div>
-            <div class="member-title">崇憲</div>
-        </div>              
-
-        <div class="member-item">
-            <div class="member-name-placeholder">成員 17</div>
-            <div class="member-image-wrapper">
-                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Mysterious01.png?raw=true" alt="成員 17 頭像">
-            </div>
-            <div class="member-title">凱駿</div>
-        </div>      
-
-        <div class="member-item">
-            <div class="member-name-placeholder">成員 18</div>
-            <div class="member-image-wrapper">
-                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Mysterious01.png?raw=true" alt="成員 18 頭像">
-            </div>
-            <div class="member-title">宗航</div>
-        </div>      
-
-        <div class="member-item">
-            <div class="member-name-placeholder">成員 19</div>
-            <div class="member-image-wrapper">
-                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Mysterious01.png?raw=true" alt="成員 19 頭像">
-            </div>
-            <div class="member-title">鈞儒</div>
-        </div>      
-
-        <div class="member-item">
-            <div class="member-name-placeholder">成員 20</div>
-            <div class="member-image-wrapper">
-                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Mysterious01.png?raw=true" alt="成員 20 頭像">
-            </div>
-            <div class="member-title">承遠</div>
-        </div>      
-
-        <div class="member-item">
-            <div class="member-name-placeholder">成員 21</div>
-            <div class="member-image-wrapper">
-                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Mysterious01.png?raw=true" alt="成員 21 頭像">
-            </div>
-            <div class="member-title">凱瑞</div>
-        </div>
-        
-        <div class="member-item">
-            <div class="member-name-placeholder">成員 22</div>
-            <div class="member-image-wrapper">
-                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Mysterious01.png?raw=true" alt="成員 22 頭像">
-            </div>
-            <div class="member-title">智皓</div>
-        </div>  
-
-        <div class="member-item">
-            <div class="member-name-placeholder">成員 23</div>
-            <div class="member-image-wrapper">
-                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Mysterious01.png?raw=true" alt="成員 23 頭像">
-            </div>
-            <div class="member-title">哲遠</div>
-        </div>  
-
-        <div class="member-item">
-            <div class="member-name-placeholder">成員 24</div>
-            <div class="member-image-wrapper">
-                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Mysterious01.png?raw=true" alt="成員 24 頭像">
-            </div>
-            <div class="member-title">皓鈞</div>
-        </div>  
-
-        <div class="member-item">
-            <div class="member-name-placeholder">成員 25</div>
-            <div class="member-image-wrapper">
-                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Mysterious01.png?raw=true" alt="成員 25 頭像">
-            </div>
-            <div class="member-title">祐瑜</div>
-        </div>  
-
-        <div class="member-item">
-            <div class="member-name-placeholder">成員 26</div>
-            <div class="member-image-wrapper">
-                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Mysterious01.png?raw=true" alt="成員 26 頭像">
-            </div>
-            <div class="member-title">智軒</div>
-        </div>
-
-        <div class="member-item">
-            <div class="member-name-placeholder">成員 27</div>
-            <div class="member-image-wrapper">
-                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Mysterious01.png?raw=true" alt="成員 27 頭像">
-            </div>
-            <div class="member-title">隆勳</div>
-        </div> 
-
-        <div class="member-item">
-            <div class="member-name-placeholder">成員 28</div>
-            <div class="member-image-wrapper">
-                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Mysterious01.png?raw=true" alt="成員 28 頭像">
-            </div>
-            <div class="member-title">鎮遠</div>
-        </div>  
-
-        <div class="member-item">
-            <div class="member-name-placeholder">成員 29</div>
-            <div class="member-image-wrapper">
-                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Mysterious01.png?raw=true" alt="成員 29 頭像">
-            </div>
-            <div class="member-title">冠叡</div>
-        </div>  
-
-        <div class="member-item">
-            <div class="member-name-placeholder">成員 30</div>
-            <div class="member-image-wrapper">
-                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Mysterious01.png?raw=true" alt="成員 30 頭像">
-            </div>
-            <div class="member-title">柏鑫</div>
-        </div>  
-
-        <div class="member-item">
-            <div class="member-name-placeholder">成員 31</div>
-            <div class="member-image-wrapper">
-                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Mysterious01.png?raw=true" alt="成員 31 頭像">
-            </div>
-            <div class="member-title">承謬</div>
-        </div>  
-
-        <div class="member-item">
-            <div class="member-name-placeholder">成員 00</div>
-            <div class="member-image-wrapper">
-                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Mysterious01.png?raw=true" alt="成員 00 頭像">
-            </div>
-            <div class="member-title">**</div>
         </div>
         
+        <div class="info-card" style="margin-top: 40px; text-align: center; border-left-color: #ffcc00;">
+            <p style="color: #999; font-size: 0.9em; margin: 0;">Verified Specialist | Cyber & Bio & Jet-Tech Division | ID: 2026-YE-NEWS-999</p>
+        </div>
     </main>
 
-    <a href="#" class="back-to-top" title="回到最頂端"><i class="fa-solid fa-chevron-up"></i></a>
+    <a href="#" class="back-to-top"><i class="fa-solid fa-chevron-up"></i></a>
 
     <footer>
-        <p>© 2026 立法院 Legislature. All rights reserved.</p>
+        <p>© 2026 立法院 Legislature - 數位資訊發展處 版權所有</p>
     </footer>
 
 </body>
 </html>
-
