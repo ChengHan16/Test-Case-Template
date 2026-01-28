@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>立法院 - 成員介紹：葉光庭</title>
+    <title>立法院 - 成員介紹：劉書銘</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <style>
@@ -98,6 +98,69 @@
             color: #ffcc00;
         }
 
+        /*按鈕設定位置*/
+        .ig-btn {
+            text-decoration: none;
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            color: white;
+            padding: 8px 18px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(188, 24, 136, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .ig-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(188, 24, 136, 0.5);
+            color: white;
+        }
+
+        .fb-link-card {
+            position: absolute;
+            top: 85px; /* 維持原位 */
+            right: 35px;
+            z-index: 5;
+        }
+
+        .fb-btn {
+            text-decoration: none;
+            /* 修改為 Facebook 官方藍色 */
+            background: #1877F2; 
+            color: white;
+            padding: 8px 18px;
+            border-radius: 25px; /* 維持圓角膠囊狀 */
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            /* 修改陰影顏色為 Facebook 藍的擴散感 */
+            box-shadow: 0 4px 15px rgba(24, 119, 242, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .fb-btn:hover {
+            /* 滑過時稍微加深藍色 */
+            background: #166fe5;
+            transform: translateY(-3px);
+            /* 加強 Facebook 藍的發光效果 */
+            box-shadow: 0 6px 20px rgba(24, 119, 242, 0.5);
+            color: white;
+        }
+
+        .fb-btn i {
+            font-size: 16px; /* 控制 f 圖標的大小 */
+            margin-right: 5px; /* 與文字 Facebook 之間的距離 */
+            display: inline-block;
+            vertical-align: middle;
+        }
+        /*按鈕設定位置 end*/
+
         /* --- 3. 主要內容區域 --- */
         .event-content-area {
             max-width: 1100px;
@@ -126,16 +189,7 @@
 
         .info-brief h1 { font-size: 42px; color: #1a237e; margin: 0; letter-spacing: 4px; }
         .nickname { font-size: 20px; color: #666; font-weight: 400; }
-        .blue-line { height: 3px; background: linear-gradient(to right, #1a237e, transparent); width: 300px; margin: 15px 0; }
-
-        .info-card {
-            background: white; 
-            padding: 30px; 
-            border-radius: 12px; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
-            margin-bottom: 40px; 
-            border-left: 6px solid #ffcc00;
-        }
+        .blue-line { height: 3px; background: linear-gradient(to right, #1a237e, transparent); width: 200px; margin: 15px 0; }
 
         .section-title {
             border-left: 6px solid #1a237e;
@@ -162,6 +216,7 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.05);
             border-top: 5px solid #1a237e;
             transition: all 0.3s ease;
+            box-sizing: border-box; /* 確保 padding 不會撐破卡片 */
         }
 
         .tag {
@@ -171,6 +226,134 @@
 
         .m-title { font-weight: bold; font-size: 1.2em; color: #111; margin-bottom: 8px; display: block; }
         .m-desc { font-size: 0.95em; color: #666; line-height: 1.6; }
+
+        /* 召喚師資訊卡：內斂專業暗金版 */
+        .summoner-data-card {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            border-left: 6px solid #ffc400;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 30px 0;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .summoner-avatar-box {
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .summoner-avatar-box img {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            border: 3px solid #ffc400;
+            object-fit: cover;
+            background: #000;
+        }
+
+        .summoner-allmax-badge {
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ffc400;
+            color: #1a1a1a;
+            font-size: 10px;
+            font-weight: 900;
+            padding: 2px 8px;
+            border-radius: 10px;
+            white-space: nowrap;
+            letter-spacing: 1px;
+        }
+
+        .summoner-info-box {
+            flex-grow: 1;
+        }
+
+        .summoner-main-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .summoner-name {
+            font-size: 22px;
+            color: #000000;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .summoner-uid {
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 14px;
+            font-weight: 600;
+            color: #ffffff; /* 提升文字亮度 */
+            background: #1a1a1a; /* 使用深色背景營造對比 */
+            border: 1px solid #d4af37; /* 加上金邊呼應主色調 */
+            padding: 4px 12px;
+            border-radius: 4px;
+            letter-spacing: 1.5px; /* 增加字距更具科技感 */
+            box-shadow: inset 0 0 5px rgba(212, 175, 55, 0.2); /* 內部微光效果 */
+            display: inline-block;
+        }
+
+        .summoner-tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .s-tag {
+            font-size: 12px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            color: #1c170f;
+        }
+
+        .s-tag-guild {
+            border-color: rgba(212, 175, 55, 0.3);
+            color: #1c170f;
+        }
+        
+        @media (max-width: 768px) {
+            .summoner-data-card { 
+                flex-direction: column; 
+                text-align: center; 
+                gap: 20px; 
+        }
+
+        /* 手機版強制置中並調整間距 */
+        .summoner-main-row {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            gap: 12px !important; /* 增加名稱與 UID 的垂直間距 */
+            margin-bottom: 15px !important;
+        }
+
+        /* 調整手機版 UID 字體大小以防溢出 */
+        .summoner-uid {
+            font-size: 13px;
+            padding: 6px 15px;
+        }
+
+        .summoner-tags {
+            justify-content: center !important;
+        }
+    }
+        /* 神魔之塔 */
+
+        @media (max-width: 768px) {
+            .summoner-data-card { flex-direction: column; text-align: center; gap: 20px; }
+        }
 
         /* --- 5. 其他元件 --- */
         .back-to-top {
@@ -194,41 +377,45 @@
                 flex-wrap: nowrap; padding: 10px 0 5px 0; border-top: 1px solid rgba(255,255,255,0.1);
             }
             .nav-links li { margin: 0 4px; flex-shrink: 1; }
-            .nav-links a { padding: 5px 8px; font-size: clamp(12px, 3.2vw, 14px); white-space: nowrap; }
+            .nav-links a { padding: 5px 8px; font-size: clamp(10px, 3vw, 14px); white-space: nowrap; }
+
 
             .profile-header { flex-direction: column; text-align: center; padding: 30px 20px; }
             .info-brief h1 { font-size: 32px; }
             .blue-line { margin: 15px auto; }
             
+            /* 修正手機版網格溢出 */
             .member-grid { grid-template-columns: 1fr; gap: 20px; }
+            .member-card { width: 100% !important; max-width: 350px; margin: 0 auto; }
+        }
 
-            /* 1. 調整導覽列外殼，縮小內距 */
-            .navbar-full { 
-                flex-direction: column; 
-                padding: 10px 5px; 
-            }
+        /* 右上角功能容器 */
+        .header-actions {
+            position: absolute; /* 相對於 profile-header 定位 */
+            top: 20px;          /* 距離頂部 20px */
+            right: 20px;        /* 距離右側 20px */
+            display: flex;
+            flex-direction: column; /* 讓按鈕上下排列 */
+            align-items: flex-end;  /* 讓按鈕靠右對齊 */
+            gap: 12px;          /* 設定按鈕之間的間距，防止重疊 */
+            z-index: 10;        /* 確保選單彈出時不會被其他內容遮擋 */
+        }
 
-            /* 2. 調整導覽連結容器 */
-            .event-card-simple {
-                padding: 20px 15px;      /* 縮小手機版內距 */
-                width: 100%;             /* 寬度跟隨父層的 350px */
-                box-sizing: border-box;  /* 關鍵：確保 padding 不會撐破 350px */
-            }
+        /* 確保按鈕本身不會因為容器縮放而變形 */
+        .lang-dropdown, .social-link-item {
+            width: auto;
+        }
 
-            /* 調整日期圓圈，讓 350px 內的空間分配合理 */
-            .event-date-circle {
-                width: 55px;
-                height: 55px;
-                margin-right: 15px;
-            }
+        /* 如果是手機版，建議取消絕對定位以防重疊 */
+        @media (max-width: 768px) {
+            .header-actions {
+                position: static;   /* 回復普通流向 */
+                margin-top: -20px;
+                align-items: center; /* 居中對齊 */
+                width: 100%;
+        }
 
-            /* 1. 調整導覽列外殼，縮小內距 */
-            .navbar-full { 
-                flex-direction: column; 
-                padding: 10px 5px; 
-            }
-
-            /* 2. 調整導覽連結容器 */
+        /* 2. 調整導覽連結容器 */
             .nav-links { 
                 margin-top: 10px; 
                 width: 100%; 
@@ -255,18 +442,35 @@
                 white-space: nowrap;    /* 關鍵：文字絕對不換行 */
                 letter-spacing: -0.5px; /* 稍微縮小字距，節省空間 */
             }
-        }
+
+            /* 手機版 標題列和黃字說明大小調整 Star */
+            .event-banner { /* 欄位高度大小*/
+                height: 160px; 
+            }
+            .event-banner h1 { /* 大標題*/
+                font-size: 40px; 
+            }        
+            .banner-info-wrap { /* 提示字*/
+                margin-top: 10px;
+                padding-bottom: 10px;
+                font-size: 16px;
+            }
+            /* 手機版 標題列和黃字說明大小調整 End */
+    }
     </style>
 </head>
 <body>
 
     <header class="navbar-static">
         <nav class="navbar-full">
-            <div class="logo"><div class="logo-circle">立</div> 立法院 Legislature</div>
+            <a href="index.html" class="logo">
+                <div class="logo-circle">立</div> 
+                立法院 Legislature
+            </a>
             <ul class="nav-links">
                 <li><a href="index.html">首頁</a></li>
                 <li><a href="about.html">關於我們</a></li> 
-                <li><a href="members.html"class="active-dark">成員介紹</a></li> 
+                <li><a href="members.html" class="active-dark">成員介紹</a></li> 
                 <li><a href="events.html">活動行程</a></li>
                 <li><a href="index.html">其他</a></li>
             </ul>
@@ -276,206 +480,97 @@
     <section class="event-banner">
         <h1>成員簡介</h1>
         <div class="banner-info-wrap">
-            <span>資通電化學工程委員會</span>
-            <span>人工智慧推論與極限生理研究組</span>
+            <span>文字創作委員會</span>
+            <span>幻想文學與浪漫敘事策略組</span>
         </div>
     </section>
 
-    <main class="event-content-area">
-        <div class="profile-header">
+    <main class="event-content-area" style="position: relative;">
+        <div class="profile-header" style="position: relative;">
             <div class="photo-section">
-                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Ye%20Guangting.png?raw=true" alt="葉光庭照片" class="avatar-img">
+                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Liu%20Shuming.png?raw=true" alt="劉書銘照片" class="avatar-img">
             </div>
             <div class="info-brief">
-                <span class="nickname">Ye Guangting</span>
-                <h1>葉光庭</h1>
+                <span class="nickname">Liu Shuming</span>
+                <h1>劉書銘</h1>
                 <div class="blue-line"></div>
                 <div style="font-size: 1.1em; color: #444; line-height: 2;">
                     出生地：台灣 <img src="https://raw.githubusercontent.com/ChengHan16/Legislature-Family-Website/c5599eac05dbcdaf97afd7dfabdf762d8d4f7e3a/image/Flag_of_the_Republic_of_China.svg" alt="ROC" style="height:15px; vertical-align: middle; border:1px solid #ddd;"><br>
-                    兵役狀態：替代役 (資通電類別特派人員)<br>
-                    技術職稱：資深邊緣運算架構師 / 推進系統開發工程師<br>
-                    核心研究：演算法透明性、資料隱私與量化推論分析
+                    兵役狀態：神域至尊王者皆位 (禁衛軍總指揮官)<br>
+                    技術職稱：首席幻想架構師 / 浪漫文學導師<br>
+                    核心價值：筆尖下的權力，才是真實的霸權。
+                </div>
+            </div>
+
+            <div class="header-actions">
+                <div class="social-link-item">
+                    <a href="https://www.instagram.com/ziyanyue_/" target="_blank" class="ig-btn">
+                        <i class="fa-brands fa-instagram"></i> Instagram
+                    </a>
+                </div>
+
+                <div class="social-link-item">
+                    <a href="https://www.facebook.com/liu.shu.ming.406527?locale=zh_TW" target="_blank" class="fb-btn">
+                        <i class="fa-brands fa-facebook-f"></i> Facebook
+                    </a>
                 </div>
             </div>
         </div>
 
-        <div class="section-title" style="color: #d32f2f;"><i class="fa-solid fa-newspaper" style="margin-right: 10px;"></i> 媒體焦點：突破性重點研究</div>
-        <div class="info-card" style="border-left-color: #d32f2f; background-color: #fffde7;">
-            <div style="display: flex; gap: 30px; align-items: flex-start; flex-wrap: wrap;">
-                <div style="flex: 1; min-width: 300px;">
-                    <h2 style="color: #d32f2f; margin-top: 0; font-size: 1.8em;">
-                        極速震撼：自主研發「噴射動力腳踏車系統」
-                    </h2>
-                    <p style="line-height: 1.8; color: #333; font-size: 1.1em; font-weight: 500;">
-                        本計畫成功將航太級推进技術降維應用於輕量化個人載具，因其突破性的創意與技術難度，獲得國內外媒體爭相報導與學術界高度關注。
-                    </p>
-                    
-                    <h4 style="color: #1a237e; margin: 15px 0 5px 0;"><i class="fa-solid fa-microchip"></i> 核心技術與創新突破</h4>
-                    <p style="color: #555; font-size: 0.95em; line-height: 1.6;">
-                        採用自主開發的「雙旋流燃燒噴射模組」，透過精準的流場耦合控制技術，有效克服小型引擎在高推力下的熱堆積問題。結合 <strong>AI 推論演算</strong> 進行即時壓力補償，使載具在台南市街道測試中展現出卓越的動力銜接效率與結構穩定性。
-                    </p>
-
-                    <h4 style="color: #1a237e; margin: 20px 0 5px 0;"><i class="fa-solid fa-rocket"></i> 實際應用場景 (Practical Applications)</h4>
-                    <p style="color: #555; font-size: 0.95em; line-height: 1.6;">
-                        此項技術的成功不僅止於極速測試，更具備廣泛的應用潛力：
-                    </p>
-                    <ul class="experience-list" style="margin-top: 5px;">
-                        <li><strong>緊急救災與物資投遞：</strong> 於地形複雜區域利用高推力輕量化載具，實現極速穿梭以遞送急救藥品或通信設備。</li>
-                        <li><strong>軍事特種偵察：</strong> 低截獲率的小型噴射推進技術，可用於開發高機動性的單兵巡檢設備或微型無人機平台。</li>
-                        <li><strong>極限運動技術開發：</strong> 為競技運動器材提供動態穩定控制與瞬間推進數據，推動次世代運動科技發展。</li>
-                    </ul>
-
-                    <h4 style="color: #1a237e; margin: 20px 0 5px 0;"><i class="fa-solid fa-eye"></i> 未來展望 (Future Outlook)</h4>
-                    <p style="color: #555; font-size: 0.95em; line-height: 1.6;">
-                        未來將朝向「綠色推进」與「完全自主導航」邁進：
-                    </p>
-                    <ul class="experience-list" style="margin-top: 5px;">
-                        <li><strong>混合動力系統研發：</strong> 結合高性能電池組與氫能噴射技術，在維持震撼推力的同時大幅降低碳排放。</li>
-                        <li><strong>自適應結構材料：</strong> 導入記憶合金與 3D 碳纖維編織，讓車架能隨速度自動調整氣動形態，挑戰物理極限。</li>
-                        <li><strong>跨領域學術輸出：</strong> 預計與<strong>國立智慧醫療研究中心</strong>合作，將流體力學數據應用於人體循環系統之模擬研究。</li>
-                    </ul>
-
-                    <h4 style="color: #1a237e; margin: 20px 0 5px 0;"><i class="fa-solid fa-school"></i> 學校支援與得獎殊榮</h4>
-                    <ul class="experience-list" style="margin-top: 5px;">
-                        <li><strong>跨領域研究支援：</strong> 獲得<strong>資通電作戰單位</strong>技術指導，支援高階 CFD 流體模擬運算資源與抗震結構設計。</li>
-                        <li><strong>全國競賽殊榮：</strong> 榮獲全國大專院校「尖端工程與應用物理」創新競賽特優，技術創意獲得評審團一致肯定。</li>
-                    </ul>
+        <div class="section-title">神魔之塔召喚師資訊</div>
+        <div class="summoner-data-card">
+            <div class="summoner-avatar-box">
+                <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/v20251-12th-iOS_1024.png?raw=true" alt="召喚師頭像">
+                <div class="summoner-allmax-badge">ALL MAX</div>
+            </div>
+            <div class="summoner-info-box">
+                <div class="summoner-main-row">
+                    <h3 class="summoner-name">布丁 <i class="fa-solid fa-heart" style="font-size: 0.8em; color: #ff4d4d;"></i> 艦長</h3>
+                    <span class="summoner-uid">UID: 913221746</span>
                 </div>
-                
-                <div style="flex: 0 0 380px; max-width: 100%;">
-                    <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Jet-Powered%20Bicycle%20Stuns%20the%20Internet.png?raw=true" alt="噴射動力腳踏車新聞圖" style="width: 100%; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); border: 2px solid #ffcc00;">
-                    <p style="font-size: 0.85em; color: #666; text-align: center; margin-top: 8px; margin-bottom: 20px;">圖：自主研發之噴射動力系統實驗室測試截圖</p>
-
-                    <img src="https://github.com/ChengHan16/Legislature-Family-Website/blob/main/image/Jet-Powered%20Bicycle%20Stuns%20the%20Internet%20Tainan%20City.png?raw=true" alt="台南市街道噴射腳踏車實景" style="width: 100%; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); border: 2px solid #ffcc00;">
-                    <p style="font-size: 0.9em; color: #d32f2f; text-align: center; margin-top: 8px; font-weight: bold;">圖：台南市街道狂飆實景 (實際應用場景模擬)</p>
-                    <p style="font-size: 0.75em; color: #999; text-align: center; margin-top: 5px;">※ 實驗過程均於安全管控環境與專業防護下進行</p>
+                <div class="summoner-tags">
+                    <span class="s-tag"><i class="fa-solid fa-trophy"></i> 不能戰勝的神</span>
+                    <span class="s-tag s-tag-guild"><i class="fa-solid fa-shield-cat"></i> [Miss] 布丁</span>
+                    <span class="s-tag"><i class="fa-solid fa-check"></i> 認證召喚師</span>
                 </div>
             </div>
         </div>
 
-        <div class="section-title">實際經驗與專業項目</div>
+        <div class="section-title">文學創作獲獎成就</div>
         <div class="member-grid">
             <div class="member-card">
-                <span class="tag">AI Inference</span>
-                <strong class="m-title">AI 人工智慧推論優化</strong>
-                <p class="m-desc">研發高效能模型壓縮技術，將大型神經網路成功佈署於低功耗邊緣運算設備。</p>
+                <span class="tag">冠軍 - Gold Award</span>
+                <strong class="m-title">作品：《至霸：神域王者的愛戀》</strong>
+                <p class="m-desc">榮獲年度幻想文學大賞冠軍。結合宏大的王者征戰歷史與細膩的禁忌愛戀，開創「霸權浪漫派」先河。</p>
             </div>
             <div class="member-card">
-                <span class="tag">Data Engineering</span>
-                <strong class="m-title">資料前處理與標註工程</strong>
-                <p class="m-desc">建立多維度資料清洗標準，開發自動化圖像與語音標註流，提升訓練樣本品質。</p>
+                <span class="tag">亞軍 - Silver Award</span>
+                <strong class="m-title">作品：《他在權力巔峰吻了她》</strong>
+                <p class="m-desc">入選跨國網路文學聯賽亞軍。描述在都市權謀與古老王者血脈交織下的虐心愛情，網路點擊破千萬。</p>
             </div>
             <div class="member-card">
-                <span class="tag">NLP</span>
-                <strong class="m-title">自然語言處理應用應用</strong>
-                <p class="m-desc">整合 Transformer 結構於政務文獻分析，實現精確的語意提取與自動摘要功能。</p>
-            </div>
-            <div class="member-card">
-                <span class="tag">Performance</span>
-                <strong class="m-title">低精度運算效能分析</strong>
-                <p class="m-desc">分析 INT8 與混合精度對推論速度的邊際效益，極大化硬體運算資源利用率。</p>
-            </div>
-            <div class="member-card">
-                <span class="tag">Rocketry</span>
-                <strong class="m-title">先進推進器輕量化設計</strong>
-                <p class="m-desc">探討航太級碳纖維複合材料於火箭推進器之應用，優化推重比平衡。 </p>
-            </div>
-            <div class="member-card">
-                <span class="tag">Agriculture</span>
-                <strong class="m-title">特種草藥種植與效果評估</strong>
-                <p class="m-desc">運用物聯網監測技術實踐智慧溫室種植，針對多種具潛力的藥草進行穩定性培育。</p>
-            </div>
-            <div class="member-card">
-                <span class="tag">Evaluation</span>
-                <strong class="m-title">藥草品質管理與技術</strong>
-                <p class="m-desc">建立標準化評估流程，透過質譜分析確認藥草活性成分，量化其生理機能影響。</p>
+                <span class="tag">年度佳作</span>
+                <strong class="m-title">作品：《破碎王座的最後一支舞》</strong>
+                <p class="m-desc">獲得全國幻想文學評審特別推薦獎。深刻描寫王者孤獨感與宿命糾葛的史詩之作。</p>
             </div>
         </div>
 
-        <div class="section-title">學術研究與結構分析</div>
+        <div class="section-title">作家專業證照與能力證明</div>
         <div class="member-grid">
             <div class="member-card">
-                <span class="tag">研究</span>
-                <strong class="m-title">《公路自行車車架材料創新與結構分析》</strong>
-                <p class="m-desc">針對新型複合材料於車架結構之應用，探討輕量化與極端剛性需求之平衡點。</p>
+                <span class="tag">Professional</span>
+                <strong class="m-title">高階劇本架構師認證</strong>
+                <p class="m-desc">精通好萊塢三幕式結構與複雜世界觀設定，具備處理十萬字以上長篇小說邏輯控管能力。</p>
             </div>
             <div class="member-card">
-                <span class="tag">實驗和實作經驗</span>
-                <strong class="m-title">《噴射推進系統中流場行為研究》</strong>
-                <p class="m-desc">透過 CFD 數值模擬分析推進系統流場，優化排氣噴嘴幾何形狀與結構耦合效能。</p>
-            </div>
-            <div class="member-card">
-                <span class="tag">研究</span>
-                <strong class="m-title">《人體直腸腔體順應性臨床探討》</strong>
-                <p class="m-desc">分析下消化道容積耐受度與生理極限，研究內臟系統於極端壓力下之功能邊界。</p>
-            </div>
-            <div class="member-card">
-                <span class="tag">實驗和實作經驗</span>
-                <strong class="m-title">《前列腺深層介入技術之安全性分析》</strong>
-                <p class="m-desc">研究深層組織刺激對於生理機能改善之影響，量化評估臨床應用之安全性與極限表現。</p>
-            </div>
-            <div class="member-card">
-                <span class="tag">研究</span>
-                <strong class="m-title">《特定波長光照對癌細胞抑制分析》</strong>
-                <p class="m-desc">實驗分析光動力療法 (PDT) 潛力，探討特定紫光波段於非侵入性腫瘤治療之應用。</p>
-            </div>
-            <div class="member-card">
-                <span class="tag">研究</span>
-                <strong class="m-title">《資料隱私與量化推論安全分析》</strong>
-                <p class="m-desc">聚焦演算法透明性與聯邦學習架構，確保 AI 模型在推論過程中的資訊安全防禦。</p>
-            </div>
-        </div>
-
-        <div class="section-title">專業資格證照 (Professional Credentials)</div>
-        <div class="info-card">
-            <h2 style="color: #1a237e; margin-top: 0; display: flex; align-items: center;">
-                <i class="fa-solid fa-brain" style="margin-right: 12px; color: #ffcc00;"></i> 跨領域技術認證與震撼短文
-            </h2>
-            <p style="line-height: 1.8; color: #333; font-size: 1.1em; font-weight: 500;">
-                當神經網路點亮了智慧的微光，當火焰燃燒出推進的狂熱，我即是未來的主宰！
-            </p>
-            <p style="line-height: 1.8; color: #555;">
-                葉光庭以 0 與 1 的意志，在矽晶片中雕琢無懈可擊的邏輯；轉瞬之間，他以火焰與鋼鐵之名，撕裂空間的阻力。這不只是關於證照的羅列，這是一個工程師對於規則最深沉的蔑視與重塑！從資通電的數位防禦到推進系統的極速實驗，我們在黑暗中張開雙眼，看見的是數位與物理交織出的偉大文明！  </p>
-        </div>
-        <div class="member-grid">
-            <div class="member-card">
-                <strong class="m-title">TensorFlow 深度學習專家認證</strong>
-                <p class="m-desc">掌握卷積神經網路之構建與大規模佈署優化技術。</p>
-            </div>
-            <div class="member-card">
-                <strong class="m-title">NVIDIA 邊緣運算架構師證書</strong>
-                <p class="m-desc">精通 Jetson 系列平台之硬體加速推論實務。</p>
-            </div>
-            <div class="member-card">
-                <strong class="m-title">AWS 機器學習專業工程師</strong>
-                <p class="m-desc">具備雲端大型 AI 解決方案架構與資料流管理能力。</p>
-            </div>
-            <div class="member-card">
-                <strong class="m-title">PyTorch 演算法研發高級證照</strong>
-                <p class="m-desc">專注於動態計算圖開發與頂尖模型轉化實務。</p>
-            </div>
-            <div class="member-card">
-                <strong class="m-title">自然語言處理技術專家 (NLP)</strong>
-                <p class="m-desc">大型語言模型微調與語意精準提取技術認證。</p>
-            </div>
-            <div class="member-card">
-                <strong class="m-title">AI 資料資安與隱私防護證照</strong>
-                <p class="m-desc">專精於聯邦學習與對抗性攻擊之數位安全防禦。</p>
-            </div>
-            <div class="member-card" style="border-top-color: #4caf50;">
-                <span class="tag">Agritech</span>
-                <strong class="m-title">智慧草藥種植控管證</strong>
-                <p class="m-desc">證明具備自動化農事環境監測與藥草生長參數優化能力。</p>
-            </div>
-            <div class="member-card" style="border-top-color: #4caf50;">
-                <span class="tag">QC</span>
-                <strong class="m-title">藥草品質鑑定技術證</strong>
-                <p class="m-desc">精通中藥品質檢驗流程與活性成分分析實務作業。</p>
+                <span class="tag">Academic</span>
+                <strong class="m-title">幻想文學研究專業證明</strong>
+                <p class="m-desc">深入研究古代帝王史與現代心理學，將其運用於創造極具張力的「王者人格」角色原型。</p>
             </div>
         </div>
         
         <div class="info-card" style="margin-top: 40px; text-align: center; border-left-color: #ffcc00;">
-            <p style="color: #999; font-size: 0.9em; margin: 0;">Verified Specialist | Cyber & Bio & Jet-Tech Division | ID: 2026-YE-NEWS-999</p>
+            <p style="color: #999; font-size: 0.9em; margin: 0;">Verified Author | Literature Division | ID: 2026-AUTH-888</p>
         </div>
     </main>
 
