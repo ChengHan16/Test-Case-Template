@@ -2,155 +2,152 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@legislature.tw 專屬郵件</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>@legislature.tw Webmail</title>
+    <!-- 預留給微軟 MSAL.js 整合的 CDN -->
+    <!-- <script src="https://alcdn.msauth.net/browser/2.30.0/js/msal-browser.min.js"></script> -->
     <style>
-        /* 基礎重置與全局設定 */
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+        /* 基礎重置 */
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; }
         body { display: flex; flex-direction: column; height: 100vh; background-color: #f3f2f1; color: #201f1e; overflow: hidden; }
 
-        /* 頂部導覽列 (類似 Outlook/Gmail 頂部) */
-        .header { display: flex; align-items: center; justify-content: space-between; background-color: #0078d4; color: white; padding: 0 20px; height: 48px; flex-shrink: 0; }
-        .header .logo { font-size: 16px; font-weight: 600; }
-        .header .search-bar { flex: 1; max-width: 500px; margin: 0 20px; }
-        .search-bar input { width: 100%; padding: 6px 12px; border-radius: 4px; border: none; outline: none; background-color: rgba(255, 255, 255, 0.8); }
-        .search-bar input:focus { background-color: white; }
-        .header .profile { width: 32px; height: 32px; background-color: #005a9e; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: bold; cursor: pointer; }
+        /* 頂部導覽列 */
+        .header { display: flex; align-items: center; justify-content: space-between; background-color: #0078d4; color: white; padding: 0 15px; height: 48px; flex-shrink: 0; z-index: 100; }
+        .menu-toggle { display: none; font-size: 20px; cursor: pointer; margin-right: 15px; }
+        .logo { font-size: 16px; font-weight: 600; white-space: nowrap; }
+        .search-bar { flex: 1; max-width: 400px; margin: 0 15px; }
+        .search-bar input { width: 100%; padding: 6px 12px; border-radius: 4px; border: none; outline: none; }
+        .profile { padding: 4px 12px; background: rgba(255,255,255,0.2); border-radius: 4px; cursor: pointer; font-size: 13px; }
 
-        /* 主要內容區 (三欄佈局) */
-        .main-container { display: flex; flex: 1; overflow: hidden; }
+        /* 主要內容區 */
+        .main-container { display: flex; flex: 1; overflow: hidden; position: relative; }
 
-        /* 1. 左側選單 (Sidebar) */
-        .sidebar { width: 220px; background-color: #f3f2f1; border-right: 1px solid #e1dfdd; padding: 10px 0; display: flex; flex-direction: column; flex-shrink: 0; }
-        .compose-btn { margin: 10px 20px 20px; padding: 10px 15px; background-color: #0078d4; color: white; border: none; border-radius: 20px; font-weight: 600; cursor: pointer; transition: background 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .compose-btn:hover { background-color: #005a9e; }
-        .nav-item { padding: 10px 20px; cursor: pointer; display: flex; align-items: center; font-size: 14px; }
-        .nav-item:hover { background-color: #e1dfdd; }
+        /* 1. 左側選單 */
+        .sidebar { width: 220px; background-color: #f3f2f1; border-right: 1px solid #e1dfdd; padding: 10px 0; display: flex; flex-direction: column; flex-shrink: 0; transition: transform 0.3s ease; }
+        .compose-btn { margin: 10px 20px 20px; padding: 10px 15px; background-color: #0078d4; color: white; border: none; border-radius: 20px; font-weight: 600; cursor: pointer; }
+        .nav-item { padding: 10px 20px; cursor: pointer; font-size: 14px; }
         .nav-item.active { background-color: #e1dfdd; font-weight: 600; color: #0078d4; }
 
-        /* 2. 中間信件列表 (Email List) */
+        /* 2. 中間信件列表 */
         .email-list { width: 350px; background-color: white; border-right: 1px solid #e1dfdd; display: flex; flex-direction: column; flex-shrink: 0; }
-        .list-header { padding: 15px; border-bottom: 1px solid #e1dfdd; font-weight: 600; font-size: 16px; display: flex; justify-content: space-between; align-items: center; }
+        .list-header { padding: 15px; border-bottom: 1px solid #e1dfdd; font-weight: 600; font-size: 16px; }
         .list-content { overflow-y: auto; flex: 1; }
-        .email-item { padding: 15px; border-bottom: 1px solid #f3f2f1; cursor: pointer; transition: background 0.2s; }
-        .email-item:hover { background-color: #f3f2f1; }
+        .email-item { padding: 15px; border-bottom: 1px solid #f3f2f1; cursor: pointer; }
         .email-item.selected { background-color: #e3f2fd; border-left: 4px solid #0078d4; padding-left: 11px; }
-        .email-sender { font-weight: 600; font-size: 14px; margin-bottom: 4px; display: flex; justify-content: space-between; }
-        .email-date { font-weight: normal; font-size: 12px; color: #605e5c; }
-        .email-subject { font-size: 13px; color: #201f1e; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 600; }
+        .email-sender { font-weight: 600; font-size: 14px; display: flex; justify-content: space-between; margin-bottom: 4px; }
+        .email-date { font-size: 12px; color: #605e5c; font-weight: normal; }
+        .email-subject { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
         .email-preview { font-size: 13px; color: #605e5c; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-        /* 3. 右側閱讀區 (Reading Pane) */
+        /* 3. 右側閱讀區 */
         .reading-pane { flex: 1; background-color: white; display: flex; flex-direction: column; overflow-y: auto; }
-        .reading-header { padding: 25px; border-bottom: 1px solid #e1dfdd; }
-        .reading-subject { font-size: 22px; font-weight: 600; margin-bottom: 15px; }
+        .reading-header { padding: 20px; border-bottom: 1px solid #e1dfdd; }
+        .mobile-back-btn { display: none; color: #0078d4; cursor: pointer; margin-bottom: 15px; font-weight: 600; }
+        .reading-subject { font-size: 20px; font-weight: 600; margin-bottom: 15px; }
         .reading-meta { display: flex; align-items: center; }
-        .reading-avatar { width: 40px; height: 40px; background-color: #ccc; border-radius: 50%; margin-right: 15px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; }
-        .reading-sender-info { flex: 1; }
+        .reading-avatar { width: 40px; height: 40px; background-color: #ccc; border-radius: 50%; margin-right: 15px; display: flex; align-items: center; justify-content: center; color: white; }
         .reading-name { font-weight: 600; font-size: 14px; }
         .reading-email { font-size: 12px; color: #605e5c; }
-        .reading-body { padding: 25px; font-size: 14px; line-height: 1.6; color: #323130; }
+        .reading-body { padding: 20px; font-size: 14px; line-height: 1.6; }
 
-        /* 空白狀態 */
-        .empty-state { display: flex; flex: 1; align-items: center; justify-content: center; color: #605e5c; font-size: 16px; }
+        /* =========== 手機版響應式 CSS (核心) =========== */
+        @media (max-width: 768px) {
+            .menu-toggle { display: block; } /* 顯示漢堡選單圖示 */
+            .search-bar { display: none; } /* 手機版先隱藏搜尋列以節省空間 */
+            
+            /* 側邊欄變成抽屜式覆蓋 */
+            .sidebar { position: absolute; z-index: 50; height: 100%; transform: translateX(-100%); box-shadow: 2px 0 5px rgba(0,0,0,0.1); }
+            .sidebar.mobile-open { transform: translateX(0); }
+
+            /* 列表與閱讀區變成 100% 寬度，透過 JS 切換顯示 */
+            .email-list { width: 100%; }
+            .reading-pane { width: 100%; display: none; position: absolute; height: 100%; z-index: 10; }
+            
+            /* 進入閱讀模式時的樣式切換 */
+            .main-container.viewing-email .email-list { display: none; }
+            .main-container.viewing-email .reading-pane { display: flex; }
+            .mobile-back-btn { display: block; } /* 顯示返回按鈕 */
+        }
     </style>
 </head>
 <body>
 
     <!-- 頂部導覽列 -->
     <header class="header">
-        <div class="logo">@legislature.tw Webmail</div>
-        <div class="search-bar">
-            <input type="text" placeholder="搜尋郵件...">
+        <div style="display: flex; align-items: center;">
+            <div class="menu-toggle" onclick="toggleSidebar()">☰</div>
+            <div class="logo">@legislature.tw</div>
         </div>
-        <div class="profile">User</div>
+        <div class="search-bar"><input type="text" placeholder="搜尋郵件..."></div>
+        <div class="profile" id="loginBtn" onclick="loginMicrosoft()">微軟登入</div>
     </header>
 
     <!-- 主要內容區 -->
-    <div class="main-container">
+    <div class="main-container" id="mainContainer">
         
         <!-- 1. 左側選單 -->
-        <nav class="sidebar">
+        <nav class="sidebar" id="sidebar">
             <button class="compose-btn">＋ 新郵件</button>
             <div class="nav-item active">收件匣</div>
             <div class="nav-item">寄件備份</div>
-            <div class="nav-item">草稿</div>
-            <div class="nav-item">垃圾郵件</div>
-            <div class="nav-item">垃圾桶</div>
         </nav>
 
         <!-- 2. 中間信件列表 -->
         <section class="email-list">
-            <div class="list-header">
-                <span>收件匣</span>
-                <span style="font-size: 12px; color: #0078d4; cursor: pointer;">篩選</span>
-            </div>
+            <div class="list-header">收件匣</div>
             <div class="list-content">
-                <!-- 信件項目 1 -->
-                <div class="email-item selected" onclick="showEmail('IT 支援中心', 'support@legislature.tw', '系統升級通知', '親愛的使用者您好，本週末將進行系統維護與升級作業...', '10:30 AM', '#0078d4')">
-                    <div class="email-sender">
-                        <span>IT 支援中心</span>
-                        <span class="email-date">10:30 AM</span>
-                    </div>
+                <div class="email-item" onclick="openEmailMobile('IT 支援中心', '系統升級通知')">
+                    <div class="email-sender"><span>IT 支援中心</span><span class="email-date">10:30 AM</span></div>
                     <div class="email-subject">系統升級通知</div>
-                    <div class="email-preview">親愛的使用者您好，本週末將進行系統維護與升級作業...</div>
-                </div>
-
-                <!-- 信件項目 2 -->
-                <div class="email-item" onclick="showEmail('Microsoft 365', 'no-reply@microsoft.com', '您的帳戶安全性警報', '我們偵測到您的帳戶有新的登入活動。若非本人操作...', '昨天', '#d13438')">
-                    <div class="email-sender">
-                        <span>Microsoft 365</span>
-                        <span class="email-date">昨天</span>
-                    </div>
-                    <div class="email-subject">您的帳戶安全性警報</div>
-                    <div class="email-preview">我們偵測到您的帳戶有新的登入活動。若非本人操作...</div>
+                    <div class="email-preview">親愛的使用者您好，本週末將進行系統升級...</div>
                 </div>
             </div>
         </section>
 
         <!-- 3. 右側閱讀區 -->
         <section class="reading-pane" id="readingPane">
-            <!-- 預設顯示第一封信的內容 -->
             <div class="reading-header">
+                <div class="mobile-back-btn" onclick="backToList()">← 返回信件列表</div>
                 <div class="reading-subject" id="viewSubject">系統升級通知</div>
                 <div class="reading-meta">
-                    <div class="reading-avatar" id="viewAvatar" style="background-color: #0078d4;">IT</div>
-                    <div class="reading-sender-info">
+                    <div class="reading-avatar" style="background-color: #0078d4;">IT</div>
+                    <div>
                         <div class="reading-name" id="viewName">IT 支援中心</div>
-                        <div class="reading-email" id="viewEmail">support@legislature.tw</div>
+                        <div class="reading-email">support@legislature.tw</div>
                     </div>
-                    <div class="email-date" id="viewDate">10:30 AM</div>
                 </div>
             </div>
-            <div class="reading-body" id="viewBody">
-                <p>親愛的使用者您好，</p><br>
-                <p>本週末將進行系統維護與升級作業，屆時郵件服務可能會有短暫中斷。造成您的不便，敬請見諒。</p><br>
-                <p>若有任何問題，請聯繫 IT 部門。</p><br>
-                <p>祝 順心</p>
+            <div class="reading-body">
+                <p>這是一封測試信件的內容。在手機版上，您需要點擊左上角的「返回信件列表」才能回到上一頁。</p>
             </div>
         </section>
-
     </div>
 
     <script>
-        // 用於切換信件內容的簡單邏輯
-        function showEmail(name, email, subject, body, date, color) {
-            // 更新閱讀區內容
+        // 手機版：開關左側側邊欄
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('mobile-open');
+        }
+
+        // 手機版：點擊信件進入閱讀模式
+        function openEmailMobile(name, subject) {
             document.getElementById('viewSubject').innerText = subject;
             document.getElementById('viewName').innerText = name;
-            document.getElementById('viewEmail').innerText = email;
-            document.getElementById('viewDate').innerText = date;
-            document.getElementById('viewBody').innerHTML = `<p>${body}</p>`; // 實務上這裡會是 HTML 格式的信件內容
-            
-            // 更新大頭貼與顏色
-            const avatar = document.getElementById('viewAvatar');
-            avatar.innerText = name.substring(0, 2);
-            avatar.style.backgroundColor = color;
+            // 替 main-container 加上 class，CSS 會自動隱藏列表、顯示閱讀區
+            document.getElementById('mainContainer').classList.add('viewing-email');
+        }
 
-            // 處理列表的點擊視覺狀態 (移除其他項目的 selected，加到當前點擊的項目)
-            const items = document.querySelectorAll('.email-item');
-            items.forEach(item => item.classList.remove('selected'));
-            event.currentTarget.classList.add('selected');
+        // 手機版：從閱讀區返回列表
+        function backToList() {
+            document.getElementById('mainContainer').classList.remove('viewing-email');
+        }
+
+        // 預留：整合微軟登入的按鈕邏輯
+        function loginMicrosoft() {
+            alert("此處將觸發 MSAL.js 呼叫微軟登入彈跳視窗");
+            // 登入成功後，將按鈕文字改為使用者名稱，例如 "Wei-Ren"
+            document.getElementById('loginBtn').innerText = "已登入";
         }
     </script>
 </body>
