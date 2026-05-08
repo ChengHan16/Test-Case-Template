@@ -2,152 +2,120 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>@legislature.tw Webmail</title>
-    <!-- 預留給微軟 MSAL.js 整合的 CDN -->
-    <!-- <script src="https://alcdn.msauth.net/browser/2.30.0/js/msal-browser.min.js"></script> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@legislature.tw 郵件登入</title>
     <style>
-        /* 基礎重置 */
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; }
-        body { display: flex; flex-direction: column; height: 100vh; background-color: #f3f2f1; color: #201f1e; overflow: hidden; }
+        /* 全局設定 */
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+        body { height: 100vh; background-color: #f3f2f1; color: #201f1e; overflow: hidden; }
 
-        /* 頂部導覽列 */
-        .header { display: flex; align-items: center; justify-content: space-between; background-color: #0078d4; color: white; padding: 0 15px; height: 48px; flex-shrink: 0; z-index: 100; }
-        .menu-toggle { display: none; font-size: 20px; cursor: pointer; margin-right: 15px; }
-        .logo { font-size: 16px; font-weight: 600; white-space: nowrap; }
-        .search-bar { flex: 1; max-width: 400px; margin: 0 15px; }
-        .search-bar input { width: 100%; padding: 6px 12px; border-radius: 4px; border: none; outline: none; }
-        .profile { padding: 4px 12px; background: rgba(255,255,255,0.2); border-radius: 4px; cursor: pointer; font-size: 13px; }
+        /* ================= 登入頁面樣式 ================= */
+        #login-container { display: flex; align-items: center; justify-content: center; height: 100%; background: linear-gradient(135deg, #0078d4 0%, #005a9e 100%); }
+        .login-box { background: white; padding: 40px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); width: 100%; max-width: 400px; }
+        .login-logo { font-size: 24px; font-weight: 600; color: #0078d4; margin-bottom: 8px; text-align: center; }
+        .login-subtitle { text-align: center; color: #605e5c; margin-bottom: 30px; font-size: 14px; }
+        .input-group { margin-bottom: 20px; }
+        .input-group label { display: block; margin-bottom: 8px; font-size: 14px; font-weight: 600; }
+        .input-group input { width: 100%; padding: 10px 12px; border: 1px solid #8a8886; border-radius: 4px; font-size: 14px; outline: none; }
+        .input-group input:focus { border-color: #0078d4; box-shadow: 0 0 0 2px rgba(0, 120, 212, 0.2); }
+        .login-btn { width: 100%; padding: 12px; background-color: #0078d4; color: white; border: none; border-radius: 4px; font-size: 16px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+        .login-btn:hover { background-color: #005a9e; }
+        .error-msg { color: #d13438; font-size: 13px; margin-bottom: 15px; display: none; }
 
-        /* 主要內容區 */
-        .main-container { display: flex; flex: 1; overflow: hidden; position: relative; }
-
-        /* 1. 左側選單 */
-        .sidebar { width: 220px; background-color: #f3f2f1; border-right: 1px solid #e1dfdd; padding: 10px 0; display: flex; flex-direction: column; flex-shrink: 0; transition: transform 0.3s ease; }
-        .compose-btn { margin: 10px 20px 20px; padding: 10px 15px; background-color: #0078d4; color: white; border: none; border-radius: 20px; font-weight: 600; cursor: pointer; }
-        .nav-item { padding: 10px 20px; cursor: pointer; font-size: 14px; }
-        .nav-item.active { background-color: #e1dfdd; font-weight: 600; color: #0078d4; }
-
-        /* 2. 中間信件列表 */
-        .email-list { width: 350px; background-color: white; border-right: 1px solid #e1dfdd; display: flex; flex-direction: column; flex-shrink: 0; }
+        /* ================= 郵件主系統樣式 (預設隱藏) ================= */
+        #app-container { display: none; flex-direction: column; height: 100vh; }
+        
+        /* (沿用先前的信箱排版樣式) */
+        .header { display: flex; align-items: center; justify-content: space-between; background-color: #0078d4; color: white; padding: 0 20px; height: 48px; flex-shrink: 0; }
+        .header .logo { font-size: 16px; font-weight: 600; }
+        .main-container { display: flex; flex: 1; overflow: hidden; }
+        .sidebar { width: 220px; background-color: #f3f2f1; border-right: 1px solid #e1dfdd; padding: 10px 0; display: flex; flex-direction: column; }
+        .nav-item { padding: 10px 20px; cursor: pointer; display: flex; align-items: center; font-size: 14px; }
+        .nav-item:hover { background-color: #e1dfdd; }
+        .email-list { width: 350px; background-color: white; border-right: 1px solid #e1dfdd; display: flex; flex-direction: column; }
         .list-header { padding: 15px; border-bottom: 1px solid #e1dfdd; font-weight: 600; font-size: 16px; }
-        .list-content { overflow-y: auto; flex: 1; }
         .email-item { padding: 15px; border-bottom: 1px solid #f3f2f1; cursor: pointer; }
-        .email-item.selected { background-color: #e3f2fd; border-left: 4px solid #0078d4; padding-left: 11px; }
-        .email-sender { font-weight: 600; font-size: 14px; display: flex; justify-content: space-between; margin-bottom: 4px; }
-        .email-date { font-size: 12px; color: #605e5c; font-weight: normal; }
-        .email-subject { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
-        .email-preview { font-size: 13px; color: #605e5c; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-        /* 3. 右側閱讀區 */
-        .reading-pane { flex: 1; background-color: white; display: flex; flex-direction: column; overflow-y: auto; }
-        .reading-header { padding: 20px; border-bottom: 1px solid #e1dfdd; }
-        .mobile-back-btn { display: none; color: #0078d4; cursor: pointer; margin-bottom: 15px; font-weight: 600; }
-        .reading-subject { font-size: 20px; font-weight: 600; margin-bottom: 15px; }
-        .reading-meta { display: flex; align-items: center; }
-        .reading-avatar { width: 40px; height: 40px; background-color: #ccc; border-radius: 50%; margin-right: 15px; display: flex; align-items: center; justify-content: center; color: white; }
-        .reading-name { font-weight: 600; font-size: 14px; }
-        .reading-email { font-size: 12px; color: #605e5c; }
-        .reading-body { padding: 20px; font-size: 14px; line-height: 1.6; }
-
-        /* =========== 手機版響應式 CSS (核心) =========== */
-        @media (max-width: 768px) {
-            .menu-toggle { display: block; } /* 顯示漢堡選單圖示 */
-            .search-bar { display: none; } /* 手機版先隱藏搜尋列以節省空間 */
-            
-            /* 側邊欄變成抽屜式覆蓋 */
-            .sidebar { position: absolute; z-index: 50; height: 100%; transform: translateX(-100%); box-shadow: 2px 0 5px rgba(0,0,0,0.1); }
-            .sidebar.mobile-open { transform: translateX(0); }
-
-            /* 列表與閱讀區變成 100% 寬度，透過 JS 切換顯示 */
-            .email-list { width: 100%; }
-            .reading-pane { width: 100%; display: none; position: absolute; height: 100%; z-index: 10; }
-            
-            /* 進入閱讀模式時的樣式切換 */
-            .main-container.viewing-email .email-list { display: none; }
-            .main-container.viewing-email .reading-pane { display: flex; }
-            .mobile-back-btn { display: block; } /* 顯示返回按鈕 */
-        }
+        .email-item:hover { background-color: #f3f2f1; }
+        .email-sender { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+        .email-subject { font-size: 13px; font-weight: 600; }
+        .reading-pane { flex: 1; background-color: white; padding: 25px; overflow-y: auto; }
+        .reading-subject { font-size: 22px; font-weight: 600; margin-bottom: 15px; }
     </style>
 </head>
 <body>
 
-    <!-- 頂部導覽列 -->
-    <header class="header">
-        <div style="display: flex; align-items: center;">
-            <div class="menu-toggle" onclick="toggleSidebar()">☰</div>
-            <div class="logo">@legislature.tw</div>
+    <!-- 1. 登入區塊 -->
+    <div id="login-container">
+        <div class="login-box">
+            <div class="login-logo">@legislature.tw</div>
+            <div class="login-subtitle">專屬網域郵件登入</div>
+            
+            <div class="error-msg" id="errorMsg">帳號或密碼錯誤，請重試。</div>
+
+            <form id="loginForm">
+                <div class="input-group">
+                    <label for="email">電子郵件</label>
+                    <input type="email" id="email" placeholder="name@legislature.tw" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">密碼</label>
+                    <input type="password" id="password" placeholder="輸入密碼" required>
+                </div>
+                <button type="submit" class="login-btn">登入</button>
+            </form>
         </div>
-        <div class="search-bar"><input type="text" placeholder="搜尋郵件..."></div>
-        <div class="profile" id="loginBtn" onclick="loginMicrosoft()">微軟登入</div>
-    </header>
+    </div>
 
-    <!-- 主要內容區 -->
-    <div class="main-container" id="mainContainer">
-        
-        <!-- 1. 左側選單 -->
-        <nav class="sidebar" id="sidebar">
-            <button class="compose-btn">＋ 新郵件</button>
-            <div class="nav-item active">收件匣</div>
-            <div class="nav-item">寄件備份</div>
-        </nav>
-
-        <!-- 2. 中間信件列表 -->
-        <section class="email-list">
-            <div class="list-header">收件匣</div>
-            <div class="list-content">
-                <div class="email-item" onclick="openEmailMobile('IT 支援中心', '系統升級通知')">
-                    <div class="email-sender"><span>IT 支援中心</span><span class="email-date">10:30 AM</span></div>
-                    <div class="email-subject">系統升級通知</div>
-                    <div class="email-preview">親愛的使用者您好，本週末將進行系統升級...</div>
+    <!-- 2. 郵件主系統區塊 (初始隱藏) -->
+    <div id="app-container">
+        <header class="header">
+            <div class="logo">@legislature.tw Webmail</div>
+            <div style="cursor: pointer;" onclick="logout()">登出</div>
+        </header>
+        <div class="main-container">
+            <nav class="sidebar">
+                <div class="nav-item">收件匣</div>
+                <div class="nav-item">寄件備份</div>
+            </nav>
+            <section class="email-list">
+                <div class="list-header">收件匣</div>
+                <div class="email-item">
+                    <div class="email-sender">系統管理員</div>
+                    <div class="email-subject">登入成功通知</div>
                 </div>
-            </div>
-        </section>
-
-        <!-- 3. 右側閱讀區 -->
-        <section class="reading-pane" id="readingPane">
-            <div class="reading-header">
-                <div class="mobile-back-btn" onclick="backToList()">← 返回信件列表</div>
-                <div class="reading-subject" id="viewSubject">系統升級通知</div>
-                <div class="reading-meta">
-                    <div class="reading-avatar" style="background-color: #0078d4;">IT</div>
-                    <div>
-                        <div class="reading-name" id="viewName">IT 支援中心</div>
-                        <div class="reading-email">support@legislature.tw</div>
-                    </div>
-                </div>
-            </div>
-            <div class="reading-body">
-                <p>這是一封測試信件的內容。在手機版上，您需要點擊左上角的「返回信件列表」才能回到上一頁。</p>
-            </div>
-        </section>
+            </section>
+            <section class="reading-pane">
+                <div class="reading-subject">歡迎使用專屬郵件系統</div>
+                <p>您已成功登入 @legislature.tw 郵件系統。</p>
+            </section>
+        </div>
     </div>
 
     <script>
-        // 手機版：開關左側側邊欄
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('mobile-open');
-        }
+        // 處理登入表單提交
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // 阻止表單預設的重整跳轉
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
 
-        // 手機版：點擊信件進入閱讀模式
-        function openEmailMobile(name, subject) {
-            document.getElementById('viewSubject').innerText = subject;
-            document.getElementById('viewName').innerText = name;
-            // 替 main-container 加上 class，CSS 會自動隱藏列表、顯示閱讀區
-            document.getElementById('mainContainer').classList.add('viewing-email');
-        }
+            // 這裡僅為前端視覺模擬。實務上應將帳密送往後端驗證。
+            if (email.includes('@legislature.tw') && password !== '') {
+                // 登入成功：隱藏登入頁，顯示郵件系統
+                document.getElementById('login-container').style.display = 'none';
+                document.getElementById('app-container').style.display = 'flex';
+            } else {
+                // 顯示錯誤訊息
+                document.getElementById('errorMsg').style.display = 'block';
+            }
+        });
 
-        // 手機版：從閱讀區返回列表
-        function backToList() {
-            document.getElementById('mainContainer').classList.remove('viewing-email');
-        }
-
-        // 預留：整合微軟登入的按鈕邏輯
-        function loginMicrosoft() {
-            alert("此處將觸發 MSAL.js 呼叫微軟登入彈跳視窗");
-            // 登入成功後，將按鈕文字改為使用者名稱，例如 "Wei-Ren"
-            document.getElementById('loginBtn').innerText = "已登入";
+        // 登出功能
+        function logout() {
+            document.getElementById('loginForm').reset();
+            document.getElementById('errorMsg').style.display = 'none';
+            document.getElementById('app-container').style.display = 'none';
+            document.getElementById('login-container').style.display = 'flex';
         }
     </script>
 </body>
